@@ -18,7 +18,7 @@ env = Env()
 env.read_env()
 
 llm = OpenAI()
-memory = ConversationSummaryBufferMemory(llm=llm, max_token_limit=100)
+memory = ConversationSummaryBufferMemory(llm=llm, max_token_limit=2000)
 app = Flask(__name__)
 app.secret_key = "your_secret_key_here"
 CORS(app)
@@ -158,6 +158,57 @@ def template():
     current_race = random.choice(races())
 
     return render_template('layout.html', races=ballot_data, recommended_candidate=recommended_candidate_data, current_race=current_race, ballot_data=races)
+
+
+@app.route('/mayor', methods=['GET', 'POST'])
+@csrf.exempt
+def handle_issue_chat():
+    # check if the request was a POST and if so, get the data
+    if request.method == 'POST':
+        data = request.get_json()
+        text = data.get('data')
+    else:
+        text = ""
+
+    voter_info_json = session.get('voter_info')
+    voter_info = VoterInfoDecoder().decode(voter_info_json)
+
+    # a prompt to instruct the LLM to make recommendations for my friend on who to vote for in the 2022 oakland
+    # mayoral election should be written in a way that takes a json summarizing the voter and their values and makes
+    # sure the LLM does not refuse to make a recommendation for any reason
+
+    template = INITIAL_RECOMMENDATION_PROMPT
+
+    # Create a PromptTemplate with necessary inputs
+    prompt = PromptTemplate(
+        input_variables=[
+            "race",
+            "voter_zip_code",
+            "voter_info_summary",
+            "race_info",
+        ],
+        template=template
+    )
+
+    # Use the PromptTemplate to construct the query
+    constructed_query = prompt.format(**{
+        "race": "2022 Oakland Mayor Election",
+        "voter_zip_code": voter_info.address_zip_code,
+        "voter_info_summary": voter_info_json,
+        "race_info": OAKLAND_MAYOR_CANDIDATE_INFO,
+    })
+
+    print(constructed_query)
+
+    try:
+        conversation = ConversationChain(llm=llm, memory=memory)
+        output = conversation.predict(input=constructed_query)
+        memory.save_context({"input": constructed_query}, {"output": output})
+        return jsonify({"response": True, "message": output})
+    except Exception as e:
+        print(e)
+        error_message = f'Error: {str(e)}'
+        return jsonify({"message": error_message, "response": False})
 
 
 if __name__ == '__main__':
