@@ -14,6 +14,12 @@ from wtforms import StringField, SelectField, SubmitField
 from wtforms.validators import DataRequired
 from flask_wtf.csrf import CSRFProtect
 
+from environs import Env
+
+env = Env()
+# Read .env into os.environ
+env.read_env()
+
 
 llm = OpenAI()
 memory = ConversationSummaryBufferMemory(llm=llm, max_token_limit=100)
@@ -56,7 +62,6 @@ def index():
         return jsonify(form_data)
     return render_template('form2.html', form=form)
 
-
 @app.route('/data', methods=['POST'])
 def get_data():
     data = request.get_json()
@@ -73,4 +78,4 @@ def get_data():
         return jsonify({"message":error_message,"response":False})
     
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
