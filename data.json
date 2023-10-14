@@ -8,7 +8,8 @@
             "we_vote_id": "wv87pol12731",
             "bp_url": "https://ballotpedia.org/Loren_Taylor",
             "bp_text": "",
-            "wiki_url": "https://en.wikipedia.org/wiki/Loren_Taylor"
+            "wiki_url": "https://en.wikipedia.org/wiki/Loren_Taylor",
+            "first_url" : "https://www.kron4.com/news/bay-area/oakland-mayoral-candidate-profile-loren-taylor/"
         },
         "Sheng Thao": {
             "result_title": "Sheng Thao",
@@ -18,7 +19,8 @@
             "we_vote_id": "wv87pol12820",
             "bp_url": "https://ballotpedia.org/Sheng_Thao",
             "bp_text": "",
-            "wiki_url": "https://en.wikipedia.org/wiki/Sheng_Thao"
+            "wiki_url": "https://en.wikipedia.org/wiki/Sheng_Thao",
+            "first_url" : "https://www.shengforoakland.com/about"
         },
         "Ignacio De La Fuente": {
             "result_title": "Ignacio De La Fuente",
@@ -28,12 +30,14 @@
             "we_vote_id": "wv87pol12655",
             "bp_url": "https://ballotpedia.org/Ignacio_De_La_Fuente",
             "bp_text": "",
-            "wiki_url": "https://en.wikipedia.org/wiki/Ignacio_De_La_Fuente"
+            "wiki_url": "https://en.wikipedia.org/wiki/Ignacio_De_La_Fuente",
+            "first_url" : "https://oaklandside.org/2022/10/10/oakland-mayor-election-2022-interview-ignacio-de-la-fuente/"
         },
         "Allyssa Victory Villanueva": {
             "bp_url": "https://ballotpedia.org/Allyssa_Victory_Villanueva",
             "bp_text": "",
-            "wiki_url": ""
+            "wiki_url": "",
+            "first_url" : "https://www.aclunc.org/staff/allyssa-victory-villanueva-sheher"
         },
         "Treva D. Reid": {
             "result_title": "Treva Reid",
@@ -44,7 +48,8 @@
             "we_vote_id": "wv87pol12855",
             "bp_url": "https://ballotpedia.org/Treva_Reid",
             "bp_text": "",
-            "wiki_url": ""
+            "wiki_url": "",
+            "first_url" : "https://oaklandside.org/2022/10/12/oakland-mayor-2022-campaign-interview-candidate-treva-reid/"
         },
         "Gregory Hodge": {
             "result_title": "Gregory Hodge",
@@ -54,7 +59,8 @@
             "we_vote_id": "wv87pol12647",
             "bp_url": "https://ballotpedia.org/Gregory_Hodge",
             "bp_text": "",
-            "wiki_url": ""
+            "wiki_url": "",
+            "first_url" : "https://oaklandside.org/2022/10/03/oakland-mayor-november-2022-election-candidate-greg-hodge/"
         },
         "Seneca Scott": {
             "result_title": "Seneca Scott",
@@ -65,7 +71,8 @@
             "we_vote_id": "wv87pol12816",
             "bp_url": "https://ballotpedia.org/Seneca_Scott_(California)",
             "bp_text": "",
-            "wiki_url": ""
+            "wiki_url": "",
+            "first_url" : "https://oaklandside.org/2023/09/07/seneca-scott-rally-public-safety-anti-lgbtq-statements/"
         },
         "John Reimann": {
             "result_title": "John Reimann",
@@ -74,7 +81,8 @@
             "we_vote_id": "wv87pol12685",
             "bp_url": "https://ballotpedia.org/John_Reimann",
             "bp_text": "",
-            "wiki_url": ""
+            "wiki_url": "",
+            "first_url" : "https://oaklandside.org/2022/10/14/oakland-mayors-race-2022-candidate-john-reimann/"
         },
         "Peter Y. Liu": {
             "result_title": "Peter Y. Liu",
@@ -84,7 +92,8 @@
             "we_vote_id": "wv87pol12787",
             "bp_url": "https://ballotpedia.org/Peter_Yuan_Liu",
             "bp_text": "",
-            "wiki_url": ""
+            "wiki_url": "",
+            "first_url" : "https://oaklandside.org/2022/09/06/oakland-mayor-candidate-threatens-jewish-community-email-peter-liu-seneca-scott/"
         },
         "Tyron C. Jordan": {
             "result_title": "Tyron C. Jordan",
@@ -95,7 +104,8 @@
             "we_vote_id": "wv87pol12858",
             "bp_url": "https://ballotpedia.org/Tyron_Jordan",
             "bp_text": "",
-            "wiki_url": ""
+            "wiki_url": "",
+            "first_url" : "https://oaklandside.org/2022/10/14/oakland-mayor-2022-candidate-interview-tyron-jordan/"
         },
         "Alex Padilla, Democratic": {
             "result_title": "Alex Padilla",
@@ -105,7 +115,8 @@
             "we_vote_id": "wv87pol12551",
             "bp_url": "https://ballotpedia.org/Alex_Padilla",
             "bp_text": "",
-            "wiki_url": "https://en.wikipedia.org/wiki/Alex_Padilla"
+            "wiki_url": "https://en.wikipedia.org/wiki/Alex_Padilla",
+            "first_url" : "https://www.padilla.senate.gov/about/"
         },
         "Mark P. Meuser, Republican": {
             "result_title": "Mark Meuser",
@@ -117,13 +128,15 @@
             "we_vote_id": "wv87pol35165",
             "bp_url": "https://ballotpedia.org/Mark_P._Meuser",
             "bp_text": "",
-            "wiki_url": "https://en.wikipedia.org/wiki/Alex_Padilla"
+            "wiki_url": "https://en.wikipedia.org/wiki/Alex_Padilla",
+            "first_url" : "https://www.sandiegouniontribune.com/opinion/commentary/story/2022-08-12/nov-2022-election-q-a-with-mark-meuser-candidate-for-u-s-senate"
         }
     },
     "Propositions": {
         "Proposition 29 Kidney Dialysis Clinics": {
             "bp_url": "https://ballotpedia.org/California_Proposition_29,_Dialysis_Clinic_Requirements_Initiative_(2022)",
-            "wiki_url": "https://en.wikipedia.org/wiki/2022_California_Proposition_29"
+            "wiki_url": "https://en.wikipedia.org/wiki/2022_California_Proposition_29",
+            "first_url" : "https://lwvc.org/vote/elections/ballot-measures/prop-29-kidney-dialysis-clinics-requirements"
         }
     }
 }
