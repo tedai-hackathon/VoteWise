@@ -37,6 +37,9 @@ def races():
     # get all the keys from the ballot data
     return list(ballot_data.keys())
 
+def escaped_races():
+    return [quote(item) for item in races()]
+
 @app.route('/chat')
 def chat():
     return render_template('index.html')
@@ -106,6 +109,25 @@ def index():
         return jsonify(form_data)
     return render_template('intake_form.html', form=form)
 
+# read the race and candidate parameters from the request, save them as kv into the session variable, and redirect to the next race
+# input: race = encoded race name, candidate = encoded candidate name
+from flask import redirect, url_for
+
+@app.route('/confirm', methods=['GET'])
+def confirm():
+    race = request.args.get('race')
+    candidate = request.args.get('candidate')
+    if 'choices' not in session:
+        session['choices'] = {}
+
+    session['choices'][unquote(race)] = candidate
+
+    session.modified = True
+
+    race_index = escaped_races().index(race)
+    next_race = escaped_races()[race_index + 1] if race_index < len(races()) - 1 else None
+    return redirect(url_for('race', race_name=next_race))
+    # get the index of this race from races    
 
 @app.route('/data', methods=['POST'])
 @csrf.exempt

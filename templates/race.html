@@ -46,12 +46,25 @@
                         
                         <!-- Buttons -->
                         <div class="mt-3 text-right">
-                            <button class="btn btn-success" id="acceptButton">
+                            <form action="{{ url_for('confirm') }}" method="get">
+                                <!-- Hidden input to store the recommended candidate's name -->
+                                <input type="hidden" name="candidate" value="{{ recommended_candidate.name }}">
+                                <input type="hidden" name="race" value="{{ quote(current_race) }}">
+                
+                                <!-- Existing buttons, with the Learn More button modified -->
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn btn-secondary mr-2" id="learnMoreButton">Learn More</button>
+                                    <!-- Modified the Next button to be a submit button for the form -->
+                                    <button type="submit" class="btn btn-success">Next</button>
+                                </div>
+                            </form>
+                            
+                            <!-- <button class="btn btn-success" id="acceptButton">
                                 <i class="icon-accept"></i> Accept
                             </button>
                             <button class="btn btn-secondary" id="learnMoreButton">
                                 <i class="icon-info"></i> Learn More
-                            </button>
+                            </button> -->
                         </div>
                     </div>
                 </div>
