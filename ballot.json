@@ -1,0 +1,129 @@
+{
+    "Governor": [
+        "Gavin Newsom, Democratic",
+        "Brian Dahle, Republican"
+    ],
+    "Lieutenant Governor": [
+        "Eleni Kounalakis, Democratic",
+        "Angela E. Underwood Jacobs, Republican"
+    ],
+    "Secretary of State": [
+        "Shirley N. Weber, Democratic",
+        "Rob Bernosky, Republican"
+    ],
+    "Controller": [
+        "Malia M. Cohen, Democratic",
+        "Lanhee J. Chen, Republican"
+    ],
+    "Treasurer": [
+        "Fiona Ma, Democratic",
+        "Jack M. Guerrero, Republican"
+    ],
+    "Attorney General": [
+        "Rob Bonta, Democratic",
+        "Nathan Hochman, Republican"
+    ],
+    "Insurance Commissioner": [
+        "Ricardo Lara, Democratic",
+        "Robert Howell, Republican"
+    ],
+    "State Superintendent of Public Instruction": [
+        "Tony K. Thurmond",
+        "Lance Ray Christensen"
+    ],
+    "State Board of Equalization; District 2": [
+        "Sally J. Lieber, Democratic",
+        "Peter Coe Verbica, Republican"
+    ],
+    "United States Senator; Full Term": [
+        "Alex Padilla, Democratic",
+        "Mark P. Meuser, Republican"
+    ],
+    "United States Senator; Unexpired Short Term": [
+        "Alex Padilla, Democratic",
+        "Mark P. Meuser, Republican"
+    ],
+    "United States Representative; District 12": [
+        "Barbara Lee, Democratic",
+        "Stephen Slauson, Republican"
+    ],
+    "Member of the State Assembly; District 18": [
+        "Mia Bonta, Democratic",
+        "Mindy Pechenuk, Republican"
+    ],
+    "California Supreme Court": [
+        "Patricia Guerrero",
+        "Goodwin Liu",
+        "Martin J. Jenkins",
+        "Joshua P. Groban"
+    ],
+    "Justice, California State Court of Appeal; District 1, Division 2": [
+        "Therese M. Stewart"
+    ],
+    "Justice, California State Court of Appeal; District 1, Division 3": [
+        "Alison M. Tucher",
+        "Victor A. Rodriguez",
+        "Carin T. Fujisaki",
+        "Ioana Petrou"
+    ],
+    "Justice, California State Court of Appeal; District 1, Division 4": [
+        "Tracie L. Brown",
+        "Jeremy M. Goldman"
+    ],
+    "Justice, California State Court of Appeal; District 1, Division 5": [
+        "Teri L. Jackson",
+        "Gordon B. Burns"
+    ],
+    "Auditor; City of Oakland": [
+        "Courtney Ruby"
+    ],
+    "Mayor; City of Oakland": [
+        "Loren Manuel Taylor",
+        "Sheng Thao",
+        "Ignacio De La Fuente",
+        "Allyssa Victory Villanueva",
+        "Treva D. Reid",
+        "Gregory Hodge",
+        "Seneca Scott",
+        "John Reimann",
+        "Peter Y. Liu",
+        "Tyron C. Jordan"
+    ],
+    "District Attorney; County of Alameda": [
+        "Pamela Price",
+        "Terry Wiley"
+    ],
+    "Trustee; Peralta Community College District; Area 7": [
+        "Sheweet Yohannes",
+        "Seth Steward"
+    ],
+    "Director At-Large; Alameda-Contra Costa Transit District": [
+        "Joel Young",
+        "Alfred Twu"
+    ],
+    "Director; East Bay Municipal Utility District; Ward 3": [
+        "Marguerite Young",
+        "Mark Seedall"
+    ],
+    "Propositions":
+    {
+        "Proposition 1 Reproductive Freedom": "Amends California Constitution to expressly include anindividual's fundamental right to reproductive freedom, whichincludes the fundamental right to choose to have an abortionand the fundamental right to choose or refuse contraceptives.This amendment does not narrow or limit the existing rights toprivacy and equal protection under the California Constitution.Fiscal Impact: No direct fiscal effect because reproductive rightsalready are protected by state law.",
+        "Proposition 26 Sports Betting in Casinos": "Also allows: sports wagering at certain horseracing tracks;private lawsuits to enforce certain gambling laws. Directsrevenues to General Fund, problem-gambling programs,enforcement. Fiscal Impact: Increased state revenues, possiblyreaching tens of millions of dollars annually. Some of theserevenues would support increased state regulatory andenforcement costs that could reach the low tens of millions ofdollars annually.",
+        "Proposition 27 Online Sports Betting": "Allows Indian tribes and affiliated businesses to operate online/mobile sports wagering outside tribal lands. Directs revenues toregulatory costs, homelessness programs, nonparticipatingtribes. Fiscal Impact: Increased state revenues, possibly inthe hundreds of millions of dollars but not likely to exceed$500 million annually. Some revenues would support stateregulatory costs, possibly reaching the mid-tens of millions ofdollars annually.",
+        "Proposition 28 Funding Arts and Music Education": "Provides additional funding from state General Fund for artsand music education in all K+12 public schools (includingcharter schools). Fiscal Impact: Increased state costs of about$1 billion annually, beginning next year, for arts education inpublic schools.",
+        "Proposition 29 Kidney Dialysis Clinics": "Requires physician, nurse practitioner, or physician assistanton site during treatment. Requires clinics to: disclosephysicians' ownership interests; report infection data.Fiscal Impact: Increased state and local government costslikely in the tens of millions of dollars annually.",
+        "Proposition 30 Income Tax on Millionaires for Electric Cars": "Allocates tax revenues to zero-emission vehicle purchaseincentives, vehicle charging stations, and wildfire prevention.Fiscal Impact: Increased state tax revenue ranging from$3.5 billion to $5 billion annually, with the new funding usedto support zero-emission vehicle programs and wildfire responseand prevention activities.",
+        "Proposition 31 Yes or No to Banning Flavored Tobacco Products": "A \"Yes\" vote approves, and a \"No\" vote rejects, a 2020 lawprohibiting retail sale of certain flavored tobacco products.Fiscal Impact: Decreased state tobacco tax revenues rangingfrom tens of millions of dollars annually to around $100 millionannually.",
+        "Measure D Save Agriculture and Open Space LAnds Initiative -- County of Alameda": "To preserve and enhance agriculture in the unincorporated area of Alameda County, shall the \"Save Agriculture and Open Space Lands\" Initiative (Measure D, November 2000) allow (1) a maximum floor area ratio of .025 for agricultural buildings in Large Parcel Agriculture areas and (2) a maximum floor area ratio of .025, with a minimum of 20,000 and a maximum of 60,000 square feet, for covered equestrian riding arenas in Large Parcel Agriculture and Resource Management areas?",
+        "Measure H Parcel Tax -- Oakland Unified School District": "To continue to: reduce dropout rates; prepare Oakland students for college and 21st century careers; attract and retain highly qualified teachers; and provide mentoring, tutoring, and counseling; shall the Oakland Unified School District measure renewing the $120 parcel tax for 14 years, without increasing the initial tax rate, adding annual cost-of-living adjustments, exemptions for seniors and specified low-income individuals, and independent oversight and audits, generating at least $11.5 million annually that the State cannot take away be adopted?",
+        "Measure Q Affordable Housing -- City of Oakland": "Shall the measure to authorize the City of Oakland to develop, construct, or acquire, or assist the development of, up to 13,000 low rent residential units in social housing projects within the City for the purpose of providing affordable rental housing be adopted?",
+        "Measure R City Charter Amendment -- City of Oakland": "Shall the measure to amend the City Charter to replace gender-specific language with gender neutral language, such as replacing words like \"fireman\" with \"firefighters\" and using gender-neutral pronouns in referring to City officers and staff, recognizing that women and non-binary persons as well as men are qualified for and hold such positions, and to avoid gender stereotyping and discrimination, and promote inclusivity be adopted?",
+        "Measure S City Charter Amendment -- City of Oakland": "Shall the measure to amend the City Charter to allow the City Council by adopting an ordinance, to authorize voting by noncitizen residents, who are the parents, legal guardians, or legally recognized caregivers of a child, for the Office of Oakland School Board Director if they are otherwise eligible to vote under state and local law be adopted?",
+        "Measure T Business Tax -- City of Oakland": "Shall the measure amending Oakland's business tax rates to create a progressive rate structure that would (1) impose the highest rates on the highest grossing businesses, (2) increase Oakland's annual tax revenue by an estimated $20,900,000, and (3) generate approximately $124,000,000 in total annual revenue for municipal services by imposing business tax rates of .05% to .55% of gross receipts, and other rates as stated in the measure, be adopted?",
+        "Measure U General Obligation Bond -- City of Oakland": "Shall the measure to improve public safety and invest in Oakland by creating affordable housing for Oaklanders, increasing housing for homeless Oaklanders, repaving streets to remove potholes, improving traffic/pedestrian safety, and updating fire stations and other public facilities, by issuing $850,000,000 in general obligation bonds, raising approximately $85,000,000 annually while bonds are outstanding at the rate of $0.071 per $100 ($71 per $100,000) of assessed value, with independent oversight and annual audits be adopted?",
+        "Measure V Home Evictions -- City of Oakland": "Shall the Measure amending the Just Cause for Eviction Ordinance to: (1) prohibit no-fault evictions of children and educators during the school year; (2) extend eviction protections to tenants in recreational vehicles (RVs), tiny homes on wheels, and newly constructed units except during the first 10 years after issuance of the certificate of occupancy; (3) remove failure to sign a new lease as grounds for eviction; and (4) make other clarifying amendments, be adopted?",
+        "Measure W City Charter Amendment -- City of Oakland": "Shall the Measure amending the Oakland Municipal Code and City Charter to establish resident public financing for candidate election campaigns, increase transparency regarding independent spending in City elections, further restrict former city officials from acting as lobbyists, and provide additional resources to the Public Ethics Commission for implementation be adopted?",
+        "Measure X City Charter Amendment -- City of Oakland": "Shall a measure to amend the Charter to, among other things, establish Councilmember term limits, require two hearings before Council places certain measures on the ballot; count Councilmember abstentions and absences as \"no\" votes in determining whether Mayor may break a tie; provide Public Ethics Commission discretion in setting Councilmember salaries; authorize the Commission to set City Attorney and Auditor salaries; and add and detail duties and provide minimum staffing for the Auditor, be adopted?",
+        "Measure Y Parcel Tax -- City of Oakland": "Shall the measure to amend Oakland's Municipal Code to fund Oakland Zoo operations, staffing, maintenance and capital improvements, including but not limited to animal care and rehabilitation, educational and conservation programs, fire prevention, accessibility, and visitor services, by imposing an annual $68 parcel tax for single-family parcels, and other parcels as specified, for 20 years, raising approximately $12,000,000 annually with exemptions for low-income households and others, and citizen oversight, be adopted?"
+    }
+}
