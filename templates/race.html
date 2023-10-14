@@ -21,7 +21,7 @@
         <div class="row">
             <!-- Left Column: List of Races -->
             <div class="col-md-4">
-                <h3>Races</h3>
+                <h5>Races</h5>
                 {% with current_race=current_race, ballot_data = ballot_data  %}
                     {% include 'race_sidebar.html' %}
                 {% endwith %}
@@ -29,6 +29,7 @@
 
             <!-- Right Column: Recommendation -->
             <div class="col-md-8">
+                <h2> {{ current_race }} </h2>
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Recommendation: {{ recommended_candidate.name }}</h5>

@@ -172,7 +172,7 @@ def race(race_name):
     # pick a random element of the races list
     current_race = random.choice(races())
 
-    return render_template('layout.html', races=ballot_data,
+    return render_template('race.html', races=ballot_data,
                             recommended_candidate=recommended_candidate_data,
                               current_race=decoded_race_name, 
                               ballot_data=races,
