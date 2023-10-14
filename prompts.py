@@ -1,5 +1,3 @@
-from langchain import PromptTemplate
-
 OAKLAND_MAYOR_ISSUES = """
 1. *Affordable housing*: Addressing the housing crisis and ensuring the construction of more affordable housing units.
 1. *Homelessness:* Developing strategies to reduce homelessness and provide support to those in need.

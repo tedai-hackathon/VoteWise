@@ -6,8 +6,7 @@ from environs import Env
 from flask import Flask, render_template, request, jsonify, session, make_response
 from flask_cors import CORS
 from flask_wtf.csrf import CSRFProtect
-from langchain.chains import ConversationChain
-from langchain.llms import OpenAI
+from langchain import OpenAI
 from langchain.memory import ConversationSummaryBufferMemory
 
 from forms import IntakeForm
