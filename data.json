@@ -1,0 +1,129 @@
+{
+    "People": {
+        "Loren Manuel Taylor": {
+            "result_title": "Loren Taylor",
+            "result_image": "https://wevote-images.s3.amazonaws.com/wvehcand2297560/vote_usa_profile_image-20220705_1_48x48.jpg",
+            "state_code": "ca",
+            "twitter_handle": "lorenmtaylor",
+            "we_vote_id": "wv87pol12731",
+            "bp_url": "https://ballotpedia.org/Loren_Taylor",
+            "bp_text": "",
+            "wiki_url": "https://en.wikipedia.org/wiki/Loren_Taylor"
+        },
+        "Sheng Thao": {
+            "result_title": "Sheng Thao",
+            "result_image": "https://wevote-images.s3.amazonaws.com/wvehcand2297561/twitter_profile_image-20220705_1_48x48.jpeg",
+            "state_code": "ca",
+            "twitter_handle": "ShengForOakland",
+            "we_vote_id": "wv87pol12820",
+            "bp_url": "https://ballotpedia.org/Sheng_Thao",
+            "bp_text": "",
+            "wiki_url": "https://en.wikipedia.org/wiki/Sheng_Thao"
+        },
+        "Ignacio De La Fuente": {
+            "result_title": "Ignacio De La Fuente",
+            "result_image": "https://wevote-images.s3.amazonaws.com/wvehcand2297547/vote_usa_profile_image-20220705_1_48x48.jpg",
+            "state_code": "ca",
+            "twitter_handle": "",
+            "we_vote_id": "wv87pol12655",
+            "bp_url": "https://ballotpedia.org/Ignacio_De_La_Fuente",
+            "bp_text": "",
+            "wiki_url": "https://en.wikipedia.org/wiki/Ignacio_De_La_Fuente"
+        },
+        "Allyssa Victory Villanueva": {
+            "bp_url": "https://ballotpedia.org/Allyssa_Victory_Villanueva",
+            "bp_text": "",
+            "wiki_url": "https://en.wikipedia.org/wiki/Ignacio_De_La_Fuente"
+        },
+        "Treva D. Reid": {
+            "result_title": "Treva Reid",
+            "result_image": "https://wevote-images.s3.amazonaws.com/wvehorg623729/twitter_profile_image-20220703_1_48x48.jpeg",
+            "google_civic_election_id": 0,
+            "state_code": "ca",
+            "twitter_handle": "reidforoakland",
+            "we_vote_id": "wv87pol12855",
+            "bp_url": "https://ballotpedia.org/Treva_Reid",
+            "bp_text": "",
+            "wiki_url": ""
+        },
+        "Gregory Hodge": {
+            "result_title": "Gregory Hodge",
+            "result_image": "https://wevote-images.s3.amazonaws.com/wvehcand2297548/vote_usa_profile_image-20220705_1_48x48.jpg",
+            "state_code": "ca",
+            "twitter_handle": "",
+            "we_vote_id": "wv87pol12647",
+            "bp_url": "https://ballotpedia.org/Gregory_Hodge",
+            "bp_text": "",
+            "wiki_url": ""
+        },
+        "Seneca Scott": {
+            "result_title": "Seneca Scott",
+            "result_image": "https://wevote-images.s3.amazonaws.com/wvehcand2297558/vote_usa_profile_image-20220705_1_48x48.jpg",
+            "kind_of_owner": "POLITICIAN",
+            "state_code": "ca",
+            "twitter_handle": "Seneca4Mayor",
+            "we_vote_id": "wv87pol12816",
+            "bp_url": "https://ballotpedia.org/Seneca_Scott_(California)",
+            "bp_text": "",
+            "wiki_url": ""
+        },
+        "John Reimann": {
+            "result_title": "John Reimann",
+            "result_image": "https://wevote-images.s3.amazonaws.com/wvehcand2297556/vote_usa_profile_image-20220705_1_48x48.jpg",
+            "state_code": "ca",
+            "we_vote_id": "wv87pol12685",
+            "bp_url": "https://ballotpedia.org/John_Reimann",
+            "bp_text": "",
+            "wiki_url": ""
+        },
+        "Peter Y. Liu": {
+            "result_title": "Peter Y. Liu",
+            "result_image": "https://wevote-images.s3.amazonaws.com/wvehcand2297551/vote_usa_profile_image-20220705_1_48x48.jpg",
+            "state_code": "ca",
+            "twitter_handle": "peterliucagov18",
+            "we_vote_id": "wv87pol12787",
+            "bp_url": "https://ballotpedia.org/Peter_Yuan_Liu",
+            "bp_text": "",
+            "wiki_url": ""
+        },
+        "Tyron C. Jordan": {
+            "result_title": "Tyron C. Jordan",
+            "result_image": "https://wevote-images.s3.amazonaws.com/wvehcand2297550/vote_usa_profile_image-20220705_1_48x48.jpg",
+            "kind_of_owner": "POLITICIAN",
+            "state_code": "ca",
+            "twitter_handle": "TyronJordan13",
+            "we_vote_id": "wv87pol12858",
+            "bp_url": "https://ballotpedia.org/Tyron_Jordan",
+            "bp_text": "",
+            "wiki_url": ""
+        },
+        "Alex Padilla, Democratic": {
+            "result_title": "Alex Padilla",
+            "result_image": "https://wevote-images.s3.amazonaws.com/wv87cand2303701/twitter_profile_image-20230620_1_48x48.jpeg",
+            "state_code": "ca",
+            "twitter_handle": "AlexPadilla4CA",
+            "we_vote_id": "wv87pol12551",
+            "bp_url": "https://ballotpedia.org/Alex_Padilla",
+            "bp_text": "",
+            "wiki_url": "https://en.wikipedia.org/wiki/Alex_Padilla"
+        },
+        "Mark P. Meuser, Republican": {
+            "result_title": "Mark Meuser",
+            "result_image": "https://wevote-images.s3.amazonaws.com/wv87cand2303700/twitter_profile_image-20230620_1_48x48.jpeg",
+            "kind_of_owner": "POLITICIAN",
+            "google_civic_election_id": 0,
+            "state_code": "ca",
+            "twitter_handle": "MarkMeuser",
+            "we_vote_id": "wv87pol35165",
+            "bp_url": "https://ballotpedia.org/Mark_P._Meuser",
+            "bp_text": "",
+            "wiki_url": "https://en.wikipedia.org/wiki/Alex_Padilla"
+        }
+    },
+    "Propositions": {
+        "Proposition 29 Kidney Dialysis Clinics": {
+            "bp_url": "https://ballotpedia.org/California_Proposition_29,_Dialysis_Clinic_Requirements_Initiative_(2022)",
+            "wiki_url": "https://en.wikipedia.org/wiki/2022_California_Proposition_29"
+        }
+    }
+}
