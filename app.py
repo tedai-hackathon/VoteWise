@@ -14,6 +14,9 @@ import os
 import random
 from wtforms.validators import DataRequired, Length, Regexp
 from constants import STATE_CHOICES, LIKERT_CHOICES, LIKERT_LOOKUP, QUESTION_TEXT
+from urllib.parse import quote, unquote
+
+
 
 env = Env()
 # Read .env into os.environ
@@ -301,8 +304,14 @@ def get_data():
         error_message = f'Error: {str(e)}'
         return jsonify({"message": error_message, "response": False})
     
-@app.route('/template')
-def template():
+
+# Over the top routing magic
+@app.route('/template/', defaults={'race': None})
+@app.route('/template/race/<race>')
+def template(race):
+
+    decoded_race = None if race is None else unquote(race)
+
     recommended_candidate_data = {
         "name": "Jane Smith",
         "reason": "Jane Smith cares about children's ability to study remotely, which aligns with your values."
@@ -311,7 +320,11 @@ def template():
     # pick a random element of the races list
     current_race = random.choice(races())
 
-    return render_template('layout.html', races=ballot_data, recommended_candidate=recommended_candidate_data, current_race=current_race, ballot_data=races)
+    return render_template('layout.html', races=ballot_data,
+                            recommended_candidate=recommended_candidate_data,
+                              current_race=decoded_race, 
+                              ballot_data=races,
+                              quote = quote)
 
 
 if __name__ == '__main__':

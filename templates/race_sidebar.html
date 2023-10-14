@@ -3,7 +3,10 @@
         {% if race == current_race %}
             <li class="list-group-item active">{{ race }}</li>
         {% else %}
-            <li class="list-group-item">{{ race }}</li>
-        {% endif %}
+            <a href="{{ url_for('template', race=quote(race)) }}" class="list-group-item-action">
+                <li class="list-group-item">{{ race }}</li>
+            </a>
+                
+         {% endif %}
     {% endfor %}
 </ul>
