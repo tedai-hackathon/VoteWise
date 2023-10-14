@@ -66,3 +66,17 @@
     font-size: 90%;
     color: gray;
 }
+
+/* Style for the video container */
+.video-container {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+}
+
+/* Style for the video */
+.video-container video {
+    width: 100px;
+    height: 120px;
+    object-fit: cover; /* This will ensure that the video fills the container without distortion */
+}

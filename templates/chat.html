@@ -1,9 +1,18 @@
 <!-- Chat Container -->
 <div class="container align-items-center" style="border: 1px solid #eee; padding: 20px;">
     <div class="box justify-content-center" >
+        <div id="avatar" style="margin-bottom: -100px">
+            <div class="video-container" style="border-radius:50px">
+                <video id="avatar-video" loop muted>
+                    <source src="/static/avatar.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
         <!-- Upper section for chat messages -->
         <div class="upper mb-4 overflow-auto" id="upperid">
         <!-- <div class="upper mb-4 overflow-auto" style="min-height: 40vh" id="upperid"> -->
+
             <span class="d-block text-center text-muted">Type your message in the box below.</span>
             <!-- Messages will go here -->
         </div>
@@ -60,6 +69,7 @@
         let sendbtn = document.getElementById('sendbtn')
         let userinputarea = document.getElementById('userinput')
         let upperdiv = document.getElementById('upperid')
+        var video = document.getElementById("avatar-video");
 
 
         upperdiv.innerHTML = upperdiv.innerHTML + `<div class="message">
@@ -90,6 +100,8 @@
 
 
         if (json.response) {
+            video.play();
+            
             let message = json.message
             message = message.toString()
 
@@ -112,6 +124,7 @@
                     temp.removeAttribute('id')
                     sendbtn.disabled = false
                     userinputarea.disabled = false
+                    video.pause();
                 }
             }
             displayNextLetter()
