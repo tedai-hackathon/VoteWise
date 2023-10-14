@@ -177,7 +177,7 @@
             document.getElementById('userinput').value = ""
             document.getElementById('userinput').placeholder = "Wait . . ."
 
-            const response = await fetch("http://127.0.0.1:5000/data", {
+            const response = await fetch("/data", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

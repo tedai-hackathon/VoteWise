@@ -1,5 +1,6 @@
 from flask import Flask, render_template,jsonify,request, session
 from flask_cors import CORS
+from flask_wtf.csrf import CSRFProtect
 import requests,openai,os
 from dotenv.main import load_dotenv
 from langchain.llms import OpenAI
@@ -63,6 +64,7 @@ def index():
     return render_template('form2.html', form=form)
 
 @app.route('/data', methods=['POST'])
+@csrf.exempt
 def get_data():
     data = request.get_json()
     text=data.get('data')
