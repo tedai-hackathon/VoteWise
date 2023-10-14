@@ -64,11 +64,29 @@
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
 
-        <!-- Zip Code -->
-        <div class="form-group">
-            {{ form.zip_code.label(class="form-label") }}
-            {{ form.zip_code(class="form-control") }}
-        </div>
+    <!-- Street Address -->
+    <div class="form-group">
+        {{ form.street_address.label(class="form-label") }}
+        {{ form.street_address(class="form-control") }}
+    </div>
+
+    <!-- City -->
+    <div class="form-group">
+        {{ form.city.label(class="form-label") }}
+        {{ form.city(class="form-control") }}
+    </div>
+
+    <!-- State -->
+    <div class="form-group">
+        {{ form.state.label(class="form-label") }}
+        {{ form.state(class="form-control") }}
+    </div>
+
+    <!-- ZIP Code for Address -->
+    <div class="form-group">
+        {{ form.address_zip_code.label(class="form-label") }}
+        {{ form.address_zip_code(class="form-control") }}
+    </div>
 
         <!-- Party Affiliation -->
         <div class="form-group">

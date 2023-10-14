@@ -9,7 +9,9 @@ from langchain.chains import ConversationChain
 from langchain.llms import OpenAI
 from langchain.memory import ConversationSummaryBufferMemory
 from wtforms import StringField, SelectField, SubmitField, RadioField, SelectMultipleField, widgets
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Length, Regexp
+
+from constants import STATE_CHOICES, LIKERT_CHOICES, LIKERT_LOOKUP, QUESTION_TEXT
 
 env = Env()
 # Read .env into os.environ
@@ -48,7 +50,10 @@ class VoterInfo:
     ]
 
     def __init__(self):
-        self.zip_code = None
+        self.street_address = None
+        self.city = None
+        self.state = None
+        self.address_zip_code = None
         self.party_affiliation = None
         self.political_issues = None
         self.housing = None
@@ -109,33 +114,15 @@ class VoterInfoDecoder(json.JSONDecoder):
         return voter_info
 
 
-LIKERT_CHOICES = [
-    ('1', 'Strongly Disagree'),
-    ('2', 'Disagree'),
-    ('3', 'Neutral'),
-    ('4', 'Agree'),
-    ('5', 'Strongly Agree')
-]
-
-# make a dict to look up the string for a given likert numeric value
-LIKERT_LOOKUP = dict(LIKERT_CHOICES)
-
-QUESTION_TEXT = {
-    'housing': "Government intervention is necessary for affordable housing.",
-    'economy': "Job creation is more important than wealth redistribution in California.",
-    'environment': "Environmental protection is worth slowing economic growth in California.",
-    'immigration': "California's resources should primarily serve its citizens, not undocumented immigrants.",
-    'income_inequality': "Reducing income inequality is more important than promoting business growth in California.",
-    'transportation': "Public transportation is more important than private vehicle infrastructure in California.",
-    'education': "Public education funding is more important than tax cuts in California.",
-    'healthcare': "A single-payer healthcare system is preferable to private healthcare in California.",
-    'public_safety': "Community programs are more effective than traditional law enforcement in California.",
-    'taxation': "Progressive taxation is more beneficial than lower taxes for all in California."
-}
-
-
 class IntakeForm(FlaskForm):
-    zip_code = StringField('Zip Code', validators=[DataRequired()])
+    # New fields for address
+    street_address = StringField('Street Address', validators=[DataRequired(), Length(max=100)])
+    city = StringField('City', validators=[DataRequired(), Length(max=50)])
+    state = SelectField('State', choices=[('', 'Select State')] + STATE_CHOICES, validators=[DataRequired()])
+    address_zip_code = StringField('ZIP Code', validators=[DataRequired(),
+                                                           Length(min=5, max=5), Regexp(r'^\d{5}$')])
+
+    # voting preference information
     party_affiliation = SelectField('Party Affiliation', choices=[
         ('democrat', 'Democrat'),
         ('republican', 'Republican'),
@@ -167,10 +154,40 @@ class IntakeForm(FlaskForm):
 
 
 @app.route('/skip-intake', methods=['GET'])
-def skip_intake():
-    data = {'zip_code': '94666', 'party_affiliation': 'democrat', 'political_issues': ['healthcare', 'housing'],
-            'housing': '5', 'economy': '1', 'environment': '5', 'immigration': '2', 'income_inequality': '5',
-            'transportation': '4', 'education': '2', 'healthcare': '5', 'public_safety': '2', 'taxation': '5'}
+def skip_intake(be_conservative=True):
+    liberal_answers = {'zip_code': '94666', 'party_affiliation': 'democrat',
+                       'political_issues': ['healthcare', 'housing'],
+                       'housing': '5', 'economy': '1', 'environment': '5', 'immigration': '2', 'income_inequality': '5',
+                       'transportation': '4', 'education': '2', 'healthcare': '5', 'public_safety': '2',
+                       'taxation': '5'}
+
+    conservative_answers = {
+        "address_zip_code": "94608",
+        "city": "Oakland",
+        "economy": "5",
+        "education": "1",
+        "environment": "1",
+        "healthcare": "1",
+        "housing": "1",
+        "immigration": "5",
+        "income_inequality": "1",
+        "party_affiliation": "republican",
+        "political_issues": [
+            "economy",
+            "public_safety"
+        ],
+        "public_safety": "1",
+        "state": "CA",
+        "street_address": "4109 West",
+        "taxation": "1",
+        "transportation": "1"
+    }
+
+    if be_conservative:
+        data = conservative_answers
+    else:
+        data = liberal_answers
+
     voter_info = VoterInfo.from_vals(**data).for_llm()
     print(f"updating session with {voter_info}")
     session['voter_info'] = voter_info
