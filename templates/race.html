@@ -7,6 +7,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="/static/style.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -22,9 +23,11 @@
             <!-- Left Column: List of Races -->
             <div class="col-md-4">
                 <h5>Races</h5>
-                {% with current_race=current_race, ballot_data = ballot_data  %}
-                    {% include 'race_sidebar.html' %}
-                {% endwith %}
+                <div class="scrollable-sidebar">
+                    {% with current_race=current_race, ballot_data = ballot_data  %}
+                        {% include 'race_sidebar.html' %}
+                    {% endwith %}
+                </div>
             </div>
 
             <!-- Right Column: Recommendation -->

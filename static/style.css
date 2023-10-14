@@ -1,0 +1,13 @@
+.scrollable-sidebar {
+    max-height: 70vh; /* Adjust this value based on your desired maximum height */
+    overflow-y: auto;
+}
+
+/* Optional shadow for a visual cue */
+.scrollable-sidebar::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.scrollable-sidebar::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.1);
+}
