@@ -165,7 +165,7 @@ def get_data():
     Format your answer nicely so that it's easy to read and understand.
     """
 
-    prompt = "hi"
+    prompt = text
 
     user_input = prompt
 
