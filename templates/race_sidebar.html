@@ -1,9 +1,12 @@
 <ul class="list-group">
-    {% for race in races %}
-        {% if race == current_race %}
-            <li class="list-group-item active">{{ race }}</li>
+    {% for decoded_race_name in races %}
+        {% if decoded_race_name == current_race %}
+            <li class="list-group-item active">{{ decoded_race_name }}</li>
         {% else %}
-            <li class="list-group-item">{{ race }}</li>
-        {% endif %}
+            <a href="{{ url_for('race', race_name=quote(decoded_race_name)) }}" class="list-group-item-action">
+                <li class="list-group-item">{{ decoded_race_name }}</li>
+            </a>
+                
+         {% endif %}
     {% endfor %}
 </ul>

@@ -6,9 +6,16 @@ from environs import Env
 from flask import Flask, render_template, request, jsonify, session, make_response
 from flask_cors import CORS
 from flask_wtf.csrf import CSRFProtect
+from langchain.chains import ConversationChain
 from langchain import OpenAI
 from langchain.memory import ConversationSummaryBufferMemory
-
+from wtforms import StringField, SelectField, SubmitField, RadioField, SelectMultipleField, widgets
+from wtforms.validators import DataRequired
+import os
+import random
+from wtforms.validators import DataRequired, Length, Regexp
+from constants import STATE_CHOICES, LIKERT_CHOICES, LIKERT_LOOKUP, QUESTION_TEXT
+from urllib.parse import quote, unquote
 from forms import IntakeForm
 from models import VoterInfo
 
@@ -26,6 +33,9 @@ csrf = CSRFProtect(app)
 with open(os.path.join(app.root_path, 'static', 'ballot.json'), 'r') as f:
     ballot_data = json.load(f)
 
+def races():
+    # get all the keys from the ballot data
+    return list(ballot_data.keys())
 
 @app.route('/chat')
 def chat():
@@ -145,9 +155,15 @@ def get_data():
         print(e)
         error_message = f'Error: {str(e)}'
         return jsonify({"message": error_message, "response": False})
+    
 
-@app.route('/template')
-def template():
+# Over the top routing magic
+@app.route('/race/', defaults={'race_name': None})
+@app.route('/race/<race_name>')
+def race(race_name):
+
+    decoded_race_name = None if race_name is None else unquote(race_name)
+
     recommended_candidate_data = {
         "name": "Jane Smith",
         "reason": "Jane Smith cares about children's ability to study remotely, which aligns with your values."
@@ -156,7 +172,11 @@ def template():
     # pick a random element of the races list
     current_race = random.choice(races())
 
-    return render_template('layout.html', races=ballot_data, recommended_candidate=recommended_candidate_data, current_race=current_race, ballot_data=races)
+    return render_template('layout.html', races=ballot_data,
+                            recommended_candidate=recommended_candidate_data,
+                              current_race=decoded_race_name, 
+                              ballot_data=races,
+                              quote = quote)
 
 
 @app.route('/mayor', methods=['GET', 'POST'])

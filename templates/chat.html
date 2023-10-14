@@ -1,16 +1,19 @@
-<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
-    <div class="box">
+<!-- Chat Container -->
+<div class="container align-items-center" style="border: 1px solid #eee; padding: 20px;">
+    <div class="box justify-content-center" style="min-height: 50vh;">
+        <!-- Upper section for chat messages -->
         <div class="upper mb-4 overflow-auto" id="upperid">
             <span class="d-block text-center text-muted">Type your message in the box below.</span>
             <!-- Messages will go here -->
         </div>
 
-        <div class="bottom fixed-bottom bg-white p-3">
+        <!-- Chat Input Section -->
+        <div class="bottom bg-white p-3">
             <form id="userinputform" class="input-group">
                 <textarea id="userinput" rows="1" class="form-control" placeholder="Your message..." required></textarea>
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-primary" id="sendbtn">
-                        <i class="fas fa-paper-plane"></i>
+                        <i class="bi bi-send"></i>
                     </button>
                 </div>
             </form>
