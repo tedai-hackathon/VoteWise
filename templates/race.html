@@ -11,10 +11,13 @@
 </head>
 <body>
     <div class="container">
-        <header class="d-flex flex-wrap py-3 mb-4 border-bottom">
+        <header class="d-flex flex-wrap py-3 mb-4 border-bottom justify-content-between">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
                 <img src="/static/logo.png" width="64"/>
                 <span class="fs-4">VoteWise</span>
+            </a>
+            <a href="http://registertovote.ca.gov/" class="mb-3 mb-md-0">
+                <img src="https://elections.cdn.sos.ca.gov//images/register-to-vote.png" alt="Secretary of State - Register to Vote" />
             </a>
         </header>
     </div>
@@ -33,10 +36,23 @@
             <!-- Right Column: Recommendation -->
             <div class="col-md-8">
                 <h2> {{ current_race }} </h2>
+                <p>
+                    The race for governer is fraught with good intentions and unfortunate outcomes.
+                </p>
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Recommendation: {{ recommended_candidate.name }}</h5>
                         <p class="card-text">{{ recommended_candidate.reason }}</p>
+                        
+                        <!-- Buttons -->
+                        <div class="mt-3 text-right">
+                            <button class="btn btn-success" id="acceptButton">
+                                <i class="icon-accept"></i> Accept
+                            </button>
+                            <button class="btn btn-secondary" id="learnMoreButton">
+                                <i class="icon-info"></i> Learn More
+                            </button>
+                        </div>
                     </div>
                 </div>
                 
@@ -53,6 +69,29 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+     document.addEventListener('DOMContentLoaded', function() {
+        // Get the button elements by their IDs
+        var learnMoreBtn = document.getElementById('learnMoreButton');
+
+        // Register event listener for the Learn More button
+        learnMoreBtn.addEventListener('click', function() {
+            console.log('Learn More button clicked');
+            // TODO: only do this if there isn't already a chat going on
+            var textarea = document.getElementById('userinput');
+            textarea.value = "I don't think this is the right choice for me, can you tell me what other candidates might be appropriate?";
+            formsubmitted(); // this is a hack since this method is implemented in chat.html
+            
+        });
+
+        // (Optional) If you need any action on the Accept button, you can add it in a similar manner
+        // var acceptBtn = document.getElementById('acceptButton');
+        // acceptBtn.addEventListener('click', function() {
+        //     // Your code here
+        // });
+    });
+    </script>
 
 </body>
 </html>
