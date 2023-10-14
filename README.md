@@ -44,6 +44,7 @@ In aligning genuine public sentiment with broader objectives, we're not merely a
 **Join the Movement**:
 With VoterGuideAI's democratic insights and the Open-Source Python-Based project's conversational prowess, we're carving out the future of informed decision-making. Be a part of this transformative journey, where democracy becomes more accessible, and interactions smarter.
 
+View the live site at http://votewise.radiantmachines.com/
 
 ## Prerequisites
 
