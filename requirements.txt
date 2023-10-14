@@ -47,3 +47,5 @@ zipp==3.15.0
 environs
 flask-wtf
 wtforms
+BeautifulSoup4
+pandas
