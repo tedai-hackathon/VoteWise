@@ -34,6 +34,10 @@ with open(os.path.join(app.root_path, 'static', 'ballot.json'), 'r') as f:
 def chat():
     return render_template('index.html')
 
+@app.route('/chat2')
+def chat2():
+    return render_template('chat.html')
+
 
 class VoterInfo:
     """

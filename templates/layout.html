@@ -23,14 +23,14 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <h2 class="card-title">Recommendation: {{ recommended_candidate.name }}</h2>
+                    <h5 class="card-title">Recommendation: {{ recommended_candidate.name }}</h5>
                     <p class="card-text">{{ recommended_candidate.reason }}</p>
                 </div>
             </div>
             
             <!-- Placeholder for Chatbot -->
             <div class="mt-4">
-                {% include 'index.html' %}
+                {% include 'chat.html' %}
                 <!-- Chatbot content goes here -->
             </div>
         </div>
