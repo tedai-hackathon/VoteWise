@@ -1,0 +1,119 @@
+<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="box">
+        <div class="upper mb-4 overflow-auto" id="upperid">
+            <span class="d-block text-center text-muted">Type your message in the box below.</span>
+            <!-- Messages will go here -->
+        </div>
+
+        <div class="bottom fixed-bottom bg-white p-3">
+            <form id="userinputform" class="input-group">
+                <textarea id="userinput" rows="1" class="form-control" placeholder="Your message..." required></textarea>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary" id="sendbtn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </form>
+            <span class="d-block text-center text-muted mt-2">Remember: Your chat will not be saved, it will be lost upon reloading.</span>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // for scrolling messages
+    function scrollToBottom() {
+        var div = document.getElementById("upperid");
+        div.scrollTop = div.scrollHeight;
+    }
+    scrollToBottom()
+
+    document.getElementById("userinputform").addEventListener("submit", function (event) {
+        event.preventDefault();
+        formsubmitted();
+    });
+
+    // sending request to python server
+    const formsubmitted = async () => {
+        let userinput = document.getElementById('userinput').value
+        let sendbtn = document.getElementById('sendbtn')
+        let userinputarea = document.getElementById('userinput')
+        let upperdiv = document.getElementById('upperid')
+       
+
+        upperdiv.innerHTML = upperdiv.innerHTML + `<div class="message">
+            <div class="usermessagediv">
+                    <div class="usermessage">
+                        ${userinput}
+                    </div>
+            </div>
+        </div>`
+        sendbtn.disabled = true
+        userinputarea.disabled = true
+        scrollToBottom()
+        document.getElementById('userinput').value = ""
+        document.getElementById('userinput').placeholder = "Wait . . ."
+
+        const response = await fetch("/data", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ data: userinput })
+
+
+        });
+        let json = await response.json();
+
+        document.getElementById('userinput').placeholder = "Your message..."
+
+
+        if (json.response) {
+            let message = json.message
+            message = message.toString()
+  
+            upperdiv.innerHTML = upperdiv.innerHTML + `<div class="message">
+            <div class="appmessagediv">
+                <div class="appmessage" id="temp">
+                    
+                </div>
+            </div>
+        </div>`
+            let temp = document.getElementById('temp')
+            let index = 0
+            function displayNextLetter() {
+                scrollToBottom()
+                if (index < message.length) {
+                    temp.innerHTML = temp.innerHTML + message[index];
+                    index++;
+                    setTimeout(displayNextLetter, 30);
+                } else {
+                    temp.removeAttribute('id')
+                    sendbtn.disabled = false
+                    userinputarea.disabled = false
+                }
+            }
+            displayNextLetter()
+            scrollToBottom()
+
+        }
+        else {
+            let message = json.message
+            upperdiv.innerHTML = upperdiv.innerHTML +
+                `<div class="message">
+            <div class="appmessagediv">
+                <div class="appmessage"  style="border: 1px solid red;">
+                  ${message}
+
+                </div>
+            </div>
+        </div>`
+            sendbtn.disabled = false
+            userinputarea.disabled = false
+        }
+
+        scrollToBottom()
+
+
+    } 
+</script>

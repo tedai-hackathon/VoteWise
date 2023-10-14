@@ -1,0 +1,9 @@
+<ul class="list-group">
+    {% for race in races %}
+        {% if race == current_race %}
+            <li class="list-group-item active">{{ race }}</li>
+        {% else %}
+            <li class="list-group-item">{{ race }}</li>
+        {% endif %}
+    {% endfor %}
+</ul>

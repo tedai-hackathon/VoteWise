@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting App</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Left Column: List of Races -->
+        <div class="col-md-4">
+            <h3>Races</h3>
+            {% with current_race=current_race, ballot_data = ballot_data  %}
+                {% include 'race_sidebar.html' %}
+            {% endwith %}
+        </div>
+
+        <!-- Right Column: Recommendation -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Recommendation: {{ recommended_candidate.name }}</h5>
+                    <p class="card-text">{{ recommended_candidate.reason }}</p>
+                </div>
+            </div>
+            
+            <!-- Placeholder for Chatbot -->
+            <div class="mt-4">
+                {% include 'chat.html' %}
+                <!-- Chatbot content goes here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS (optional, for things like dropdowns) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
