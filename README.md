@@ -1,6 +1,4 @@
-# VoteWise & OpenAI ChatGPT Integration: Democratizing Decision-Making with Advanced AI Conversations
-
----
+# VoteWise
 
 ## Overview:
 
