@@ -1,19 +1,17 @@
 import json
+import os
+import random
 
 from environs import Env
 from flask import Flask, render_template, request, jsonify, session, make_response
 from flask_cors import CORS
-from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect
 from langchain.chains import ConversationChain
 from langchain.llms import OpenAI
 from langchain.memory import ConversationSummaryBufferMemory
-from wtforms import StringField, SelectField, SubmitField, RadioField, SelectMultipleField, widgets
-from wtforms.validators import DataRequired
-import os
-import random
-from wtforms.validators import DataRequired, Length, Regexp
-from constants import STATE_CHOICES, LIKERT_CHOICES, LIKERT_LOOKUP, QUESTION_TEXT
+
+from forms import IntakeForm
+from models import VoterInfo
 
 env = Env()
 # Read .env into os.environ
@@ -37,158 +35,6 @@ def chat():
 @app.route('/chat2')
 def chat2():
     return render_template('chat.html')
-
-
-class VoterInfo:
-    """
-    define a VoterInfo class to capture demographic and values information about the voter
-    and then a FlaskForm that uses VoterInfo as a model and captures those fields
-
-    """
-    likert_choices = [
-        "housing",
-        "economy",
-        "environment",
-        "immigration",
-        "income_inequality",
-        "transportation",
-        "education",
-        "healthcare",
-        "public_safety",
-        "taxation",
-    ]
-
-    def __init__(self):
-        self.street_address = None
-        self.city = None
-        self.state = None
-        self.address_zip_code = None
-        self.party_affiliation = None
-        self.political_issues = None
-        self.housing = None
-        self.economy = None
-        self.environment = None
-        self.immigration = None
-        self.income_inequality = None
-        self.transportation = None
-        self.education = None
-        self.healthcare = None
-        self.public_safety = None
-        self.taxation = None
-
-    @classmethod
-    def from_vals(cls, **kwargs):
-        """
-        alternative constructor that can take a dict of values and populate the fields
-
-        :param kwargs:
-        :return:
-        """
-        instance = cls()
-        for k, v in kwargs.items():
-            setattr(instance, k, v)
-        return instance
-
-    def for_llm(self):
-        """
-        output contents as a json-structured string we can feed to the llm.
-
-        for all the likert fields, convert the numeric value to the corresponding string value,
-        based on the LIKERT_CHOICES mapping.
-        :return: str
-        """
-        fields = self.__dict__
-        for likert_val in self.likert_choices:
-            numeric_val = fields[likert_val]
-            if numeric_val in LIKERT_LOOKUP:
-                fields[likert_val] = {
-                    'question': QUESTION_TEXT[likert_val],
-                    'response': LIKERT_LOOKUP[numeric_val]
-                }
-        return json.dumps(fields)
-
-
-class VoterInfoEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, VoterInfo):
-            return obj.__dict__
-        return super().default(obj)
-
-
-class VoterInfoDecoder(json.JSONDecoder):
-    def decode(self, json_str, **kwargs):
-        data = json.loads(json_str)
-        voter_info = VoterInfo()
-        voter_info.__dict__.update(data)
-        return voter_info
-
-LIKERT_CHOICES = [
-    ('1', 'Strongly Disagree'),
-    ('2', 'Disagree'),
-    ('3', 'Neutral'),
-    ('4', 'Agree'),
-    ('5', 'Strongly Agree')
-]
-
-# make a dict to look up the string for a given likert numeric value
-LIKERT_LOOKUP = dict(LIKERT_CHOICES)
-
-QUESTION_TEXT = {
-    'housing': "Government intervention is necessary for affordable housing.",
-    'economy': "Job creation is more important than wealth redistribution in California.",
-    'environment': "Environmental protection is worth slowing economic growth in California.",
-    'immigration': "California's resources should primarily serve its citizens, not undocumented immigrants.",
-    'income_inequality': "Reducing income inequality is more important than promoting business growth in California.",
-    'transportation': "Public transportation is more important than private vehicle infrastructure in California.",
-    'education': "Public education funding is more important than tax cuts in California.",
-    'healthcare': "A single-payer healthcare system is preferable to private healthcare in California.",
-    'public_safety': "Community programs are more effective than traditional law enforcement in California.",
-    'taxation': "Progressive taxation is more beneficial than lower taxes for all in California."
-}
-
-
-# TODO: return the values of the proposition keys as well
-def races():
-    return list(ballot_data.keys())
-
-
-class IntakeForm(FlaskForm):
-    # New fields for address
-    street_address = StringField('Street Address', validators=[DataRequired(), Length(max=100)])
-    city = StringField('City', validators=[DataRequired(), Length(max=50)])
-    state = SelectField('State', choices=[('', 'Select State')] + STATE_CHOICES, validators=[DataRequired()])
-    address_zip_code = StringField('ZIP Code', validators=[DataRequired(),
-                                                           Length(min=5, max=5), Regexp(r'^\d{5}$')])
-
-    # voting preference information
-    party_affiliation = SelectField('Party Affiliation', choices=[
-        ('democrat', 'Democrat'),
-        ('republican', 'Republican'),
-        ('independent', 'Independent'),
-        ('other', 'Other')
-    ], validators=[DataRequired()])
-    political_issues = SelectMultipleField('Which of the following issues do you consider particularly important when '
-                                           'deciding how to vote?', choices=[
-        ('education', 'Education'),
-        ('healthcare', 'Healthcare'),
-        ('environment', 'Environment'),
-        ('economy', 'Economy'),
-        ('public_safety', 'Public Safety'),
-        ('housing', 'Housing')
-
-    ], option_widget=widgets.CheckboxInput(),
-                                           widget=widgets.ListWidget(prefix_label=False),
-                                           validators=[DataRequired()])
-
-    # Dynamically create the Likert scale fields
-    for likert_choice in VoterInfo.likert_choices:
-        vars()[likert_choice] = RadioField(
-            QUESTION_TEXT[likert_choice],
-            choices=LIKERT_CHOICES,
-            validators=[DataRequired()]
-        )
-
-    submit = SubmitField('Submit')
 
 
 @app.route('/skip-intake', methods=['GET'])
@@ -300,7 +146,7 @@ def get_data():
         print(e)
         error_message = f'Error: {str(e)}'
         return jsonify({"message": error_message, "response": False})
-    
+
 @app.route('/template')
 def template():
     recommended_candidate_data = {
