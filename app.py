@@ -158,11 +158,11 @@ def get_data():
     
 
 # Over the top routing magic
-@app.route('/template/', defaults={'race': None})
-@app.route('/template/race/<race>')
-def template(race):
+@app.route('/race/', defaults={'race_name': None})
+@app.route('/race/<race_name>')
+def race(race_name):
 
-    decoded_race = None if race is None else unquote(race)
+    decoded_race_name = None if race_name is None else unquote(race_name)
 
     recommended_candidate_data = {
         "name": "Jane Smith",
@@ -174,7 +174,7 @@ def template(race):
 
     return render_template('layout.html', races=ballot_data,
                             recommended_candidate=recommended_candidate_data,
-                              current_race=decoded_race, 
+                              current_race=decoded_race_name, 
                               ballot_data=races,
                               quote = quote)
 
