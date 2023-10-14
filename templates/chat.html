@@ -36,6 +36,21 @@
         formsubmitted();
     });
 
+    // Submit on Enter
+    // Add event listener
+    document.getElementById("userinput").addEventListener("keypress", function(event) {
+        if (event.which === 13 && !event.shiftKey) {
+            event.preventDefault();
+
+            var form = document.getElementById("userinputform")
+            if (form) {
+                event.preventDefault();
+                formsubmitted();
+            }
+        }
+    });
+    
+
     // sending request to python server
     const formsubmitted = async () => {
         let userinput = document.getElementById('userinput').value
