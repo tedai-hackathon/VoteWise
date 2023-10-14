@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting App</title>
+
+    <!-- Flowbite CSS and JS files -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <!-- Left Column: List of Races -->
+            <div class="col-md-4">
+                <h3>Races</h3>
+                {% with current_race=current_race, ballot_data = ballot_data  %}
+                    {% include 'race_sidebar.html' %}
+                {% endwith %}
+            </div>
+
+            <!-- Right Column: Candidate Recommendation and Chatbot -->
+            <div class="col-md-8">
+                <!-- Candidate Recommendation -->
+                <div class="card">
+                    <h2 class="card-header">Recommendation: {{ recommended_candidate.name }}</h2>
+                    <div class="card-body">
+                        <p class="card-text">{{ recommended_candidate.reason }}</p>
+                    </div>
+                </div>
+
+                <!-- Chatbot -->
+                <div class="mt-4">
+                    <h5>Chatbot</h5>
+                    <!-- You can insert your chatbot code here -->
+                    {% include 'index.html' %}
+                    <div id="chatbot_area"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

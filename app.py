@@ -10,6 +10,8 @@ from langchain.llms import OpenAI
 from langchain.memory import ConversationSummaryBufferMemory
 from wtforms import StringField, SelectField, SubmitField, RadioField, SelectMultipleField, widgets
 from wtforms.validators import DataRequired
+import os
+import random
 
 env = Env()
 # Read .env into os.environ
@@ -21,6 +23,9 @@ app = Flask(__name__)
 app.secret_key = "your_secret_key_here"
 CORS(app)
 csrf = CSRFProtect(app)
+
+with open(os.path.join(app.root_path, 'static', 'ballot.json'), 'r') as f:
+    ballot_data = json.load(f)
 
 
 @app.route('/chat')
@@ -134,6 +139,12 @@ QUESTION_TEXT = {
 }
 
 
+# TODO: return the values of the proposition keys as well
+def races():
+    return list(ballot_data.keys())
+
+
+
 class IntakeForm(FlaskForm):
     zip_code = StringField('Zip Code', validators=[DataRequired()])
     party_affiliation = SelectField('Party Affiliation', choices=[
@@ -245,6 +256,18 @@ def get_data():
         print(e)
         error_message = f'Error: {str(e)}'
         return jsonify({"message": error_message, "response": False})
+    
+@app.route('/template')
+def template():
+    recommended_candidate_data = {
+        "name": "Jane Smith",
+        "reason": "Jane Smith cares about children's ability to study remotely, which aligns with your values."
+    }
+
+    # pick a random element of the races list
+    current_race = random.choice(races())
+
+    return render_template('layout.html', races=ballot_data, recommended_candidate=recommended_candidate_data, current_race=current_race, ballot_data=races)
 
 
 if __name__ == '__main__':
