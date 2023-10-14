@@ -1,7 +1,7 @@
 import wikipediaapi
 import json
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Comment
 from pathlib import Path
 
 
@@ -39,11 +39,37 @@ def get_bp_text(url):
             return content_element.get_text()
             
         else:
-            print(f"Failed to find content id on '{wiki_url}'.")
+            print(f"Failed to find content id on '{url}'.")
             return ""
     else:
-        print(f"Failed to fetch the page '{wiki_url}'.")
+        print(f"Failed to fetch the page '{url}'.")
         return ""
+    
+def get_web_text(url):
+
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            
+            # Remove script, style tags and comments
+            for script in soup(["script", "style"]):
+                script.extract()  # Removes tag
+            
+            # Remove comments
+            for element in soup(text=lambda text: isinstance(text, Comment)):
+                element.extract()
+
+            # Get text from soup object
+            return " ".join(soup.stripped_strings)
+        else:
+            print(f"Failed to fetch the page '{url}'.")
+            return ""
+    except:
+        print(f"{url} failed hard for web get")
+        return ""
+
+
 
 if __name__ == "__main__":
     w = get_wiki_text("https://en.wikipedia.org/wiki/Loren_Taylor")
@@ -64,7 +90,10 @@ if __name__ == "__main__":
             data["People"][person]["bp_text"] = get_bp_text(data["People"][person].get("bp_url"))
 
         if data["People"][person].get("wiki_url"):
-            data["People"][person]["wiki_text"] = get_wiki_text(data["People"][person].get("wiki_url")) 
+            data["People"][person]["wiki_text"] = get_wiki_text(data["People"][person].get("wiki_url"))
+
+        if data["People"][person].get("first_url"):
+            data["People"][person]["first_text"] = get_web_text(data["People"][person].get("first_url")) 
 
     for prop, prop_data in data["Propositions"].items():
         print(prop)
@@ -73,6 +102,9 @@ if __name__ == "__main__":
 
         if data["Propositions"][prop].get("wiki_url"):
             data["Propositions"][prop]["wiki_text"] = get_wiki_text(data["Propositions"][prop].get("wiki_url")) 
+
+        if data["Propositions"][prop].get("first_url"):
+            data["Propositions"][prop]["first_text"] = get_wiki_text(data["Propositions"][prop].get("first_url")) 
 
     output_file_path = Path("data-enrich.json")
     with output_file_path.open('w', encoding='utf-8') as f:
