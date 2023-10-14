@@ -19,7 +19,7 @@ env.read_env()
 llm = OpenAI()
 memory = ConversationSummaryBufferMemory(llm=llm, max_token_limit=2000)
 app = Flask(__name__)
-app.secret_key = "your_secret_key_here"
+app.secret_key = env.str("SECRET_KEY")
 CORS(app)
 csrf = CSRFProtect(app)
 

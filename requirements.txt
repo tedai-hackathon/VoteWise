@@ -50,3 +50,4 @@ flask-wtf
 wtforms
 BeautifulSoup4
 pandas
+wikipedia-api
