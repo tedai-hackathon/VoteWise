@@ -1,35 +1,25 @@
+import hashlib
 import json
 import os
-import random
 from pathlib import Path
-
-from environs import Env
-from flask import Flask, render_template, request, jsonify, session, make_response
-from flask_cors import CORS
-from flask_wtf.csrf import CSRFProtect
-from langchain.chains import ConversationChain
-from langchain import OpenAI, PromptTemplate
-from langchain.memory import ConversationSummaryBufferMemory
-from wtforms import StringField, SelectField, SubmitField, RadioField, SelectMultipleField, widgets
-from wtforms.validators import DataRequired
-import os
-import random
-from wtforms.validators import DataRequired, Length, Regexp
-from constants import STATE_CHOICES, LIKERT_CHOICES, LIKERT_LOOKUP, QUESTION_TEXT, OAKLAND_MAYOR_CANDIDATES
 from urllib.parse import quote, unquote
-from forms import IntakeForm
-from models import VoterInfo, VoterInfoDecoder
-
-from canonicaljson import encode_canonical_json
-import hashlib
 
 from anthropic import Anthropic, HUMAN_PROMPT, AI_PROMPT
-
-from prompts import OAKLAND_MAYOR_ISSUES, MAYOR_SCORING_PROMPT_TEMPLATE
-from models import VoterInfo
+from canonicaljson import encode_canonical_json
+from environs import Env
+from flask import Flask, render_template, request, jsonify, session, make_response
 from flask import redirect, url_for
+from flask_cors import CORS
+from flask_wtf.csrf import CSRFProtect
+from langchain import OpenAI, PromptTemplate
+from langchain.chains import ConversationChain
+from langchain.memory import ConversationSummaryBufferMemory
 
-from langchain.prompts.chat import ChatPromptTemplate, MessagesPlaceholder, SystemMessagePromptTemplate, HumanMessagePromptTemplate
+from constants import OAKLAND_MAYOR_CANDIDATES
+from forms import IntakeForm
+from models import VoterInfo
+from models import VoterInfoDecoder
+from prompts import OAKLAND_MAYOR_ISSUES, MAYOR_SCORING_PROMPT_TEMPLATE, MAYOR_OVERALL_RECOMMENDATION_PROMPT_TEMPLATE
 
 env = Env()
 # Read .env into os.environ
@@ -49,6 +39,7 @@ with open(os.path.join(app.root_path, 'static', 'ballot.json'), 'r') as f:
 
 with open(os.path.join(app.root_path, 'static', 'ballot-descriptions.json'), 'r') as f:
     ballot_descriptions = json.load(f)
+
 
 def races():
     new_list = (list(ballot_data.keys()) + list(ballot_data.get('Propositions').keys()))
@@ -124,6 +115,7 @@ def index():
         return jsonify(form_data)
     return render_template('intake_form.html', form=form)
 
+
 # read the race and candidate parameters from the request, save them as kv into the session variable, and redirect to the next race
 # input: race = encoded race name, candidate = encoded candidate name
 @app.route('/confirm', methods=['GET'])
@@ -142,6 +134,7 @@ def confirm():
     return redirect(url_for('race', race_name=next_race))
     # get the index of this race from races    
 
+
 @app.route('/pdf', methods=['GET'])
 def pdf():
     choices = session.get('choices', {})
@@ -149,6 +142,7 @@ def pdf():
     # if there is a value, put it in the front of the list, otherwise put it in the back of the list
     sorted_races = sorted(races(), key=lambda x: x not in choices)
     return render_template('pdf.html', races=sorted_races, choices=choices)
+
 
 def score_candidates_for_mayor(candidate_summaries, voter_info_json, voter_info_hash):
     voter_info_dir = Path(f"./data/{voter_info_hash}/oakland_mayor")
@@ -191,6 +185,88 @@ def score_candidates_for_mayor(candidate_summaries, voter_info_json, voter_info_
     return overall_candidate_scores
 
 
+def extract_key_from_json(json_data, key, human_readable=False):
+    prompt = f"""
+    You have been passed some poorly formatted json. You want to extract the data associated with a particular key.
+    
+    Return JUST the data, no preamble, no introduction. Just go straight into the data.
+    
+    Here is the data:
+    ```
+    {json_data}
+    ```
+    
+    Here is the key:
+    ```
+    {key}
+    ```
+    """
+
+    if human_readable:
+        prompt += """\n
+        Also reformat the data to be human readable in natural english. Try to retain any formatting or structure that ads
+        clarity, but do not include any computer or programming syntax.
+        """
+
+    completion = anthropic.completions.create(
+        model="claude-2",
+        max_tokens_to_sample=15_000,
+        prompt=f"{HUMAN_PROMPT} {prompt}{AI_PROMPT}"
+    )
+
+    # Print the completion
+    print(completion.completion)
+    return completion.completion
+
+
+def parse_wrapped_json(input_str: str):
+    recommendation = input_str
+    # json.loads(recommendation.split('```')[1].strip("json"))
+    lines = input_str.split('```')
+    core = lines[1]
+
+    json_data = json.loads(core)
+
+    return json_data
+
+
+def formulate_mayor_recommendation(candidate_scores, voter_info_json, voter_info_hash):
+    voter_info_dir = Path(f"./data/{voter_info_hash}/oakland_mayor")
+    if not voter_info_dir.exists():
+        # create voter_info_dir
+        voter_info_dir.mkdir(parents=True, exist_ok=True)
+
+    overall_candidate_scores = candidate_scores
+    recommendation_path = voter_info_dir / f"recommendation.json"
+    if recommendation_path.exists():
+        with open(recommendation_path, 'r') as f:
+            recommendation = json.load(f)
+    else:
+        print(f"start recoomending for {voter_info_json}")
+
+        recommendation_template = MAYOR_OVERALL_RECOMMENDATION_PROMPT_TEMPLATE
+        recommendation_prompt = recommendation_template.format(**{
+            "oakland_mayor_issues": OAKLAND_MAYOR_ISSUES,
+            "voter_info_json": voter_info_json,
+            "overall_candidate_scores": overall_candidate_scores
+        })
+
+        mayor_overall_recommendation_completion = anthropic.completions.create(
+            model="claude-2",
+            max_tokens_to_sample=5000,
+            prompt=f"{HUMAN_PROMPT} {recommendation_prompt}{AI_PROMPT}",
+            stop_sequences=["\n\nHuman:"],
+        )
+
+        recommendation = mayor_overall_recommendation_completion.completion
+        print(recommendation)
+
+        with open(recommendation_path, 'w') as f:
+            json.dump(recommendation, f)
+
+    return recommendation
+
+
 def hash_json_object(json_object):
     canonical_json_str = encode_canonical_json(json_object)
     return hashlib.sha256(canonical_json_str).hexdigest()
@@ -198,54 +274,114 @@ def hash_json_object(json_object):
 
 # Example usage remains the same as above
 
-@app.route('/race/', defaults={'race_name': None})
-@app.route('/race/<race_name>/recommendation')
-def race_recommendation(race_name):
+#
+# @app.route('/race/<race_name>/recommendation')
+# def race_recommendation(race_name):
+#     voter_info_json = session.get('voter_info')
+#     voter_info_hash = hash_json_object(voter_info_json)
+#
+#     voter_info = VoterInfoDecoder().decode(voter_info_json)
+#     # switch on race name
+#     # if mayor, then run mayor flow
+#     if race_name == "mayor":
+#         # load candidate summaries from ../data/big_candidate_summaries.json
+#         with open(os.path.join(app.root_path, 'data', 'big_candidate_summaries.json'), 'r') as f:
+#             candidate_summaries = json.load(f)
+#         candidates_scores = score_candidates_for_mayor(candidate_summaries, voter_info_json, voter_info_hash)
+#         recommendation = formulate_mayor_recommendation(candidates_scores, voter_info_json, voter_info_hash)
+#
+#         recommended_candidate_data = recommendation
+#     else:
+#         recommended_candidate_data = {
+#             "name": "Jane Smith",
+#             "reason": "Jane Smith cares about children's ability to study remotely, which aligns with your values."
+#         }
+#
+#     decoded_race_name = None if race_name is None else unquote(race_name)
+#
+#     return render_template('race.html', races=races(),
+#                            recommended_candidate=recommended_candidate_data,
+#                            current_race=decoded_race_name,
+#                            ballot_data=races,
+#                            quote=quote)
+#
+
+# Over the top routing magic
+@app.route('/race/', defaults={'race_name': None}, methods=['GET'])
+@app.route('/race/<race_name>', methods=['GET'])
+def race(race_name):
+    decoded_race_name = races()[0] if race_name is None else unquote(race_name)
+    race_description = ballot_descriptions[
+        decoded_race_name] if decoded_race_name in ballot_descriptions else "This race is full of intrigue and mystery. We don't know much about it yet."
+
     voter_info_json = session.get('voter_info')
     voter_info_hash = hash_json_object(voter_info_json)
 
     voter_info = VoterInfoDecoder().decode(voter_info_json)
     # switch on race name
     # if mayor, then run mayor flow
-    if race_name == "mayor":
+    if False and "mayor" in race_name.lower():
         # load candidate summaries from ../data/big_candidate_summaries.json
         with open(os.path.join(app.root_path, 'data', 'big_candidate_summaries.json'), 'r') as f:
             candidate_summaries = json.load(f)
-        score_candidates_for_mayor(candidate_summaries, voter_info_json, voter_info_hash)
+        candidates_scores = score_candidates_for_mayor(candidate_summaries, voter_info_json, voter_info_hash)
+        recommendation = formulate_mayor_recommendation(candidates_scores, voter_info_json, voter_info_hash)
+
+        recommended_candidate_data = {
+            "name": extract_key_from_json(recommendation, "recommendation"),
+            "reason": extract_key_from_json(recommendation, "justification", human_readable=True)
+        }
+    else:
+        recommended_candidate_data = {
+            "name": "Jane Smith",
+            "reason": "Jane Smith cares about children's ability to study remotely, which aligns with your values."
+        }
+    # import ipdb; ipdb.set_trace()
 
     recommended_candidate_data = {
         "name": "Jane Smith",
         "reason": "Jane Smith cares about children's ability to study remotely, which aligns with your values."
     }
-
-    decoded_race_name = None if race_name is None else unquote(race_name)
 
     return render_template('race.html', races=races(),
                            recommended_candidate=recommended_candidate_data,
                            current_race=decoded_race_name,
                            ballot_data=races,
+                           race_description=race_description,
                            quote=quote)
 
-
-# Over the top routing magic
-@app.route('/race/', defaults={'race_name': None})
-@app.route('/race/<race_name>')
-def race(race_name):
+@app.route('/race/', defaults={'race_name': None}, methods=['POST'])
+@app.route('/race/<race_name>/recommendation', methods=['POST'])
+@csrf.exempt
+def race_recommendation(race_name):
 
     decoded_race_name = races()[0] if race_name is None else unquote(race_name)
-    race_description = ballot_descriptions[decoded_race_name] if decoded_race_name in ballot_descriptions else "This race is full of intrigue and mystery. We don't know much about it yet."
+    race_description = ballot_descriptions[
+        decoded_race_name] if decoded_race_name in ballot_descriptions else "This race is full of intrigue and mystery. We don't know much about it yet."
+    voter_info_json = session.get('voter_info')
+    voter_info_hash = hash_json_object(voter_info_json)
 
-    recommended_candidate_data = {
-        "name": "Jane Smith",
-        "reason": "Jane Smith cares about children's ability to study remotely, which aligns with your values."
-    }
+    voter_info = VoterInfoDecoder().decode(voter_info_json)
+    # switch on race name
+    # if mayor, then run mayor flow
+    if "mayor" in race_name.lower():
+        # load candidate summaries from ../data/big_candidate_summaries.json
+        with open(os.path.join(app.root_path, 'data', 'big_candidate_summaries.json'), 'r') as f:
+            candidate_summaries = json.load(f)
+        candidates_scores = score_candidates_for_mayor(candidate_summaries, voter_info_json, voter_info_hash)
+        recommendation = formulate_mayor_recommendation(candidates_scores, voter_info_json, voter_info_hash)
 
-    return render_template('race.html', races=races(),
-                            recommended_candidate=recommended_candidate_data,
-                              current_race=decoded_race_name, 
-                              ballot_data=races,
-                              race_description = race_description,
-                              quote = quote)
+        recommended_candidate_data = {
+            "name": extract_key_from_json(recommendation, "recommendation"),
+            "reason": extract_key_from_json(recommendation, "justification", human_readable=True)
+        }
+    else:
+        recommended_candidate_data = {
+            "name": "Jane Smith",
+            "reason": "Jane Smith cares about children's ability to study remotely, which aligns with your values."
+        }
+
+    return jsonify({"response": True, "message": recommended_candidate_data})
 
 
 @app.route('/race/<race_name>/chat/<recommendation>', methods=['POST'])
@@ -258,7 +394,8 @@ def chat(race_name, recommendation):
 
     # if memory has key race_name, use that memory, otherwise create a new memory
     if race_name not in new_memory_by_race:
-        new_memory_by_race[race_name] = ConversationSummaryBufferMemory(llm = llm, memory_key="chat_history", return_messages=True)
+        new_memory_by_race[race_name] = ConversationSummaryBufferMemory(llm=llm, memory_key="chat_history",
+                                                                        return_messages=True)
 
     race_memory = new_memory_by_race[race_name]
 
@@ -279,7 +416,6 @@ def chat(race_name, recommendation):
 
     local_prompt = PromptTemplate(input_variables=["chat_history", "input"], template=prompt)
 
-
     try:
         conversation = ConversationChain(llm=llm, memory=race_memory, prompt=local_prompt)
         output = conversation.predict(input=text)
@@ -289,7 +425,6 @@ def chat(race_name, recommendation):
         print(e)
         error_message = f'Error: {str(e)}'
         return jsonify({"message": error_message, "response": False})
-
 
 
 @app.route('/mayor', methods=['GET', 'POST'])

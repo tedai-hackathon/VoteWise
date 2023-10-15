@@ -53,3 +53,4 @@ BeautifulSoup4
 pandas
 wikipedia-api
 canonicaljson
+ipdb

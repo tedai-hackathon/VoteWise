@@ -115,15 +115,22 @@
         
         // Display the loader initially
         loader.style.display = "block";
-        
+        const encodedRace = encodeURIComponent("{{current_race}}");
+        const url = '/race/' + encodedRace + '/recommendation';
+
+
         // Make the AJAX call
-        fetch('/race/{{quote(current_race)}}/recommendation', {
-            method: 'POST'
+        fetch(url, {
+            method: 'POST',
+            // set json content type
+            headers: {
+                'Content-Type': 'application/json'
+            },
         }) // Replace with the actual route to the quick_recommendation function
         .then(response => response.json())
         .then(data => {
             if (data.response) {
-                document.querySelector("#recommendation .card-title").textContent = "Recommendation: " + data.message.candidate;
+                document.querySelector("#recommendation .card-title").textContent = "Recommendation: " + data.message.name;
                 document.querySelector("#recommendation .card-text").textContent = data.message.reason;
 
                 // Show recommendation info and hide loader

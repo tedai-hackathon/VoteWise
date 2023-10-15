@@ -247,7 +247,7 @@ You are a politically-neutral but diligent and objective political science exper
 
 Key issues:
 ```
-{OAKLAND_MAYOR_ISSUES}
+{oakland_mayor_issues}
 ```
 
 And here is the information about the voter:
@@ -263,42 +263,44 @@ And here are the scoring summaries for each candidate:
 Give your response in this format:
 ```JSON
 {{
-"summary_of_voter": {{A two-paragraph summary of the voter's overall values and interests.}},
-"recommendation": {{top recommended candidate}},
+"summary_of_voter": <A two-paragraph summary of the voter's overall values and interests.>,
+"recommendation": <top recommended candidate>,
 "ranking": [
-{{candidate 1}},
-{{candidate 2}},
-{{candidate 3}},
-{{candidate 4}},
+<candidate 1>,
+<candidate 2>,
+<candidate 3}},
+<candidate 4}},
 ],
 "justification": {{
-"{{candidate 1}}": \"""
-                                       * {{first long, clear bullet point of justification for ranking of candidate 1}}
-                                       * {{second long, clear bullet point of justification for ranking of candidate 1}}
-                                       * {{third long, clear bullet point of justification for ranking of candidate 1}}
-                                       * {{fourth long, clear bullet point of justification for ranking of candidate 1}}
+"<candidate 1>": \"""
+                                       * <first long, clear bullet point of justification for ranking of candidate 1>
+                                       * <second long, clear bullet point of justification for ranking of candidate 1>
+                                       * <third long, clear bullet point of justification for ranking of candidate 1>
+                                       * <fourth long, clear bullet point of justification for ranking of candidate 1>
+\""",
+"<candidate 2>": \"""
+                                       * <first long, clear bullet point of justification for ranking of candidate 2>
+                                       * <second long, clear bullet point of justification for ranking of candidate 2>
+                                       * <third long, clear bullet point of justification for ranking of candidate 2>
+                                       * <fourth long, clear bullet point of justification for ranking of candidate 2>
+\""",
+"<candidate 3>": \"""
+                                       * <first long, clear bullet point of justification for ranking of candidate 3>
+                                       * <second long, clear bullet point of justification for ranking of candidate 3>
+                                       * <third long, clear bullet point of justification for ranking of candidate 3>
+                                       * <fourth long, clear bullet point of justification for ranking of candidate 3>
+\""",
+"<candidate 4>": \"""
+                                       * <first long, clear bullet point of justification for ranking of candidate 4>
+                                       * <second long, clear bullet point of justification for ranking of candidate 4>
+                                       * <third long, clear bullet point of justification for ranking of candidate 4>
+                                       * <fourth long, clear bullet point of justification for ranking of candidate 4>
 \"""
-"{{candidate 2}}": \"""
-                                       * {{first long, clear bullet point of justification for ranking of candidate 2}}
-                                       * {{second long, clear bullet point of justification for ranking of candidate 2}}
-                                       * {{third long, clear bullet point of justification for ranking of candidate 2}}
-                                       * {{fourth long, clear bullet point of justification for ranking of candidate 2}}
-\""",
-"{{candidate 3}}": \"""
-                                       * {{first long, clear bullet point of justification for ranking of candidate 3}}
-                                       * {{second long, clear bullet point of justification for ranking of candidate 3}}
-                                       * {{third long, clear bullet point of justification for ranking of candidate 3}}
-                                       * {{fourth long, clear bullet point of justification for ranking of candidate 3}}
-\""",
-"{{candidate 4}}": \"""
-                                       * {{first long, clear bullet point of justification for ranking of candidate 4}}
-                                       * {{second long, clear bullet point of justification for ranking of candidate 4}}
-                                       * {{third long, clear bullet point of justification for ranking of candidate 4}}
-                                       * {{fourth long, clear bullet point of justification for ranking of candidate 4}}
-\""",
 }}
 }}
 ```
 
-The output is going to be directly parsed and loaded into python via a `json.loads` call, so make sure it is exactly adheres to the json syntactic validity requirements laid out in RFC 8259, "The JavaScript Object Notation (JSON) Data Interchange Format," published by the Internet Engineering Task Force (IETF)
-"""
+The output is going to be directly parsed and loaded into python via a `json.loads` call, so make sure it is exactly adheres to the json syntactic validity requirements laid out in RFC 8259, "The JavaScript Object Notation (JSON) Data Interchange Format," published by the Internet Engineering Task Force (IETF).
+
+Do not provide any preamble or introduction. Just immediately start generating JSON. the very first character of your 
+response should be {{ and the very last character should be }}."""
