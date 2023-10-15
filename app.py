@@ -95,9 +95,11 @@ def skip_intake(be_conservative=True):
     print(f"updating session with {voter_info}")
     session['voter_info'] = voter_info
     session.modified = True
-    response = make_response('', 204)
-    response.mimetype = 'application/json'
-    return response
+    return redirect(url_for('race'))
+
+    # response = make_response('', 204)
+    # response.mimetype = 'application/json'
+    # return response
 
 
 @app.route('/', methods=['GET', 'POST'])
