@@ -68,12 +68,18 @@
                                     <input type="hidden" name="candidate" value="{{ recommended_candidate.name }}">
                                     <input type="hidden" name="race" value="{{ quote(current_race) }}">
                     
-                                    <!-- Existing buttons, with the Learn More button modified -->
-                                    <div class="d-flex justify-content-end">
-                                        <button type="button" class="btn btn-secondary mr-2" id="learnMoreButton">Learn More</button>
-                                        <!-- Modified the Next button to be a submit button for the form -->
-                                        <button type="submit" class="btn btn-success">Accept</button>
-                                    </div>
+            <!-- Existing buttons, with the Learn More and Citations buttons modified -->
+            <div class="d-flex justify-content-between">
+                <!-- Added Citations button with custom styling -->
+                <a href="https://ballotpedia.org/Mayoral_election_in_Oakland,_California_(2022)" target="_blank" class="btn btn-outline-secondary" style="border-color: #ccc; color: #888;">Citations</a>
+
+                <!-- Group the remaining buttons to the right -->
+                <div>
+                    <button type="button" class="btn btn-secondary mr-2" id="learnMoreButton">Learn More</button>
+                    <!-- Modified the Next button to be a submit button for the form -->
+                    <button type="submit" class="btn btn-success">Accept</button>
+                </div>
+            </div>
                                 </form>
                             </div>
                         </div>
