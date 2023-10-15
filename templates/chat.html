@@ -1,4 +1,11 @@
 <!-- Chat Container -->
+<style>
+    .btn-mic {
+    background-color: #DCE4F0; /* Greyish blue color */
+    border: 1px solid dimgray; /* Thin black line */
+}
+
+</style>
 <div class="container align-items-center" style="border: 1px solid #eee; padding: 20px;">
     <div class="box justify-content-center" >
         <div id="avatar" style="margin-bottom: -100px; position: relative">
@@ -23,13 +30,16 @@
                 <textarea id="userinput" rows="1" class="form-control" placeholder="Your message..."
                     required></textarea>
                 <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary" id="sendbtn">
-                        <i class="bi bi-send"></i>
-                    </button>
+
+               <button type="button" class="btn btn-mic" id="micbtn">
+            <i class="bi bi-mic"></i>
+        </button>
+        <button type="submit" class="btn btn-primary" id="sendbtn">
+            <i class="bi bi-send"></i>
+        </button>
                 </div>
             </form>
-            <span class="d-block text-center text-muted mt-2">Remember: Your chat will not be saved, it will be lost
-                upon reloading.</span>
+
         </div>
     </div>
 </div>
