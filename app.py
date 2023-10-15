@@ -59,11 +59,6 @@ def escaped_races():
     return [quote(item) for item in races()]
 
 
-@app.route('/chat')
-def chat():
-    return render_template('index.html')
-
-
 @app.route('/chat2')
 def chat2():
     return render_template('chat.html')
@@ -252,14 +247,6 @@ def race(race_name):
                               race_description = race_description,
                               quote = quote)
 
-# This is a temporary method that uses a super simple prompt to ensure that we get a valid response from the LLM
-@app.route('/race/<race_name>/recommendation', methods=['POST'])
-@csrf.exempt
-def recommendation(race_name):
-    return jsonify({"response": True, "message": {
-        "candidate": "Jane Smith",
-        "reason": "Jane Smith cares about children's ability to study remotely, which aligns with your values."
-    }})
 
 @app.route('/race/<race_name>/chat/<recommendation>', methods=['POST'])
 @csrf.exempt
