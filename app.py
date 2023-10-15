@@ -113,6 +113,8 @@ def index():
 
         session.modified = True
         print(form_data)
+        print("in form")
+        return redirect(url_for('race'))
         return jsonify(form_data)
     return render_template('intake_form.html', form=form)
 
