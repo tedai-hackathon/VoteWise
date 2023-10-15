@@ -137,8 +137,7 @@ def pdf():
     # sort races by whether session.get('choices') has a value for them
     # if there is a value, put it in the front of the list, otherwise put it in the back of the list
     sorted_races = sorted(races(), key=lambda x: x not in choices)
-    return render_template('pdf.html', races=sorted_races, choices=choices)
-    
+    return render_template('pdf.html', races=sorted_races, choices=choices)    
 
 # Over the top routing magic
 @app.route('/race/', defaults={'race_name': None})
