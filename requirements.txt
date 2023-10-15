@@ -52,3 +52,4 @@ wtforms
 BeautifulSoup4
 pandas
 wikipedia-api
+canonicaljson

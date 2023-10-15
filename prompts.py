@@ -184,13 +184,13 @@ MAYOR_SCORING_PROMPT_TEMPLATE = """
     
     Key issues:
     ```
-    {OAKLAND_MAYOR_ISSUES}
+    {oakland_mayor_issues}
     ```
     
     And here is the information about the candidate:
     ```
     
-    {big_candidate_summaries[candidate]}
+    {candidate_summary}
     ```
     
     ```
