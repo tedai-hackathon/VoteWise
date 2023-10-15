@@ -212,6 +212,9 @@ def extract_key_from_json(json_data, key, human_readable=False):
          Try to use the HTML to retain any formatting or structure that ads
         clarity, but remember this HTML will be inserted directly into a webpage DOM by javascript so it should not cause any rendering problems when inserted.
         Remove any extraneous characters or quotation marks.
+        
+        For any lists, make sure to use native HTML lists (ul, ol, li) to represent them. Make the HTML as human readable and visually appealing as possible. 
+        Give any headers in lists appropriate but subtle visual accenting.
         """
 
     # retrieve response from cache if it already exists (using same caching to disk pattern)
@@ -432,6 +435,14 @@ def chat(race_name, recommendation):
 
     race_memory = new_memory_by_race[race_name]
 
+    # Convert the Python object to a JSON string
+    escaped_voter_info = json.dumps(voter_info)
+
+    # Escape the curly braces
+    escaped_voter_info = escaped_voter_info.replace('{', '{{').replace('}', '}}')
+
+    print(escaped_voter_info)
+
     prompt = f"""
                     You are a helpful voting assistant. You made the following recommendation:
                     {recommendation['name']}
@@ -440,6 +451,9 @@ def chat(race_name, recommendation):
 
                     This was your justification:
                     {recommendation['reason']}
+                    
+                    Here's info about the voter:
+                    {escaped_voter_info}
                 """
     prompt += """
 
@@ -449,6 +463,7 @@ def chat(race_name, recommendation):
     AI Assistant:
     """
 
+    print(prompt)
     # TODO: figure out how to put voter info back into the prompt
     # also ideally candidate summaries
     local_prompt = PromptTemplate(input_variables=["chat_history", "input"], template=prompt)
