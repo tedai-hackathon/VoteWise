@@ -1,6 +1,7 @@
 import hashlib
 import json
 import os
+import time
 from pathlib import Path
 from urllib.parse import quote, unquote
 
@@ -189,6 +190,8 @@ def score_candidates_for_mayor(candidate_summaries, voter_info_json, voter_info_
     return overall_candidate_scores
 
 
+LANGUAGE = "english"
+
 def extract_key_from_json(json_data, key, human_readable=False):
     prompt = f"""
     You have been passed some poorly formatted json. You want to extract the data associated with a particular key.
@@ -203,6 +206,8 @@ def extract_key_from_json(json_data, key, human_readable=False):
     Here is the key:
     ```
     {key}
+    
+    Your reply should be exclusively in the language of {LANGUAGE}.
     ```
     """
 
@@ -260,7 +265,8 @@ def formulate_mayor_recommendation(candidate_scores, voter_info_json, voter_info
         voter_info_dir.mkdir(parents=True, exist_ok=True)
 
     overall_candidate_scores = candidate_scores
-    language = json.loads(voter_info_json).get('language', 'english')
+    language = json.loads(voter_info_json).get('language', LANGUAGE)
+    language = LANGUAGE
     recommendation_path = voter_info_dir / f"{language}_recommendation.json"
     if recommendation_path.exists():
         with open(recommendation_path, 'r') as f:
@@ -405,13 +411,25 @@ def race_recommendation(race_name):
     else:
         recommended_candidate_data = {
             "name": "Alex Padilla, Democratic",
-            "reason": "Alex Padilla shares your view on housing affordability (score 90)"
+            "reason": """
+            <ul>Alex Padilla is the candidate for Senator officially nominated by the Democratic party. That means
+                      that he ran in a primary race in the spring and was the preferred Democratic voter for the majority
+                      of people who voted in the primary.
+                      
+                      <li> He shares many of your views on affordable housing and criminal justice</li>
+                      <li> He has a long track record of public service</li>
+                      <li> He is endorsed by nearly every state and national Democratic elected leader</li>
+                      <li> He has no notable scandals in his public or private career.</li>
+                      </ul>
+                      """
+
         }
 
     # add recommendation to the session
     session['recommendation'] = recommended_candidate_data
     session.modified = True
 
+    time.sleep(4)
     return jsonify({"response": True, "message": recommended_candidate_data})
 
 

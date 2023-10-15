@@ -10,82 +10,82 @@
     <link href="/static/style.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <header class="d-flex flex-wrap py-3 mb-4 border-bottom justify-content-between">
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                <img src="/static/logo.png" width="64"/>
-                <span class="fs-4">VoteWise</span>
-            </a>
-            <a href="http://registertovote.ca.gov/" class="mb-3 mb-md-0">
-                <img src="https://elections.cdn.sos.ca.gov//images/register-to-vote.png" alt="Secretary of State - Register to Vote" />
-            </a>
-        </header>
-    </div>
-    <div class="container mt-5">
-        <div class="row">
-            <!-- Left Column: List of Races -->
-            <div class="col-md-4">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h5>Races</h5>
-                    <span>
+<div class="container">
+    <header class="d-flex flex-wrap py-3 mb-4 border-bottom justify-content-between">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <img src="/static/logo.png" width="64"/>
+            <span class="fs-4">VoteWise</span>
+        </a>
+        <a href="http://registertovote.ca.gov/" class="mb-3 mb-md-0">
+            <img src="https://elections.cdn.sos.ca.gov//images/register-to-vote.png" alt="Secretary of State - Register to Vote" />
+        </a>
+    </header>
+</div>
+<div class="container mt-5">
+    <div class="row">
+        <!-- Left Column: List of Races -->
+        <div class="col-md-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5>Races</h5>
+                <span>
                         <a href="/pdf" class="btn">Export</a>
                         <i class="bi bi-save"></i>
                     </span>
-                    <span> Share
+                <span> Share
                         <i class="bi bi-share"></i>
                     </span>
-                </div>            
-                <div class="scrollable-sidebar">
-                    {% with current_race=current_race, ballot_data = ballot_data  %}
-                        {% include 'race_sidebar.html' %}
-                    {% endwith %}
-                </div>
             </div>
-
-            <!-- Right Column: Recommendation -->
-            <div class="col-md-8">
-                <h2> {{ current_race }} </h2>
-                <p>
-                    {{ race_description }}
-                </p>
-                <div class="card">
-                    <div class="card-body" id="recommendation">
-                        <div id="loader">
-                            <div class="spinner-border" role="status">
-                                <span class="sr-only">Loading...</span>
-                            </div>
-                            Using AI to load a personalized recommendation...
-                        </div>
-                        
-                        <!-- Wrapped Recommendation Info -->
-                        <div id="recommendationInfo" style="display: none;">
-                            <h5 class="card-title">Recommendation:</h5>
-                            <p class="card-text"></p>
-                                                    <!-- Buttons -->
-                            <div class="mt-3 text-right">
-                                <form action="{{ url_for('confirm') }}" method="get">
-                                    <!-- Hidden input to store the recommended candidate's name -->
-                                    <input type="hidden" name="candidate" value="{{ recommended_candidate.name }}">
-                                    <input type="hidden" name="race" value="{{ quote(current_race) }}">
-                    
-            <!-- Existing buttons, with the Learn More and Citations buttons modified -->
-            <div class="d-flex justify-content-between">
-                <!-- Added Citations button with custom styling -->
-                <a href="https://ballotpedia.org/Mayoral_election_in_Oakland,_California_(2022)" target="_blank" class="btn btn-outline-secondary" style="border-color: #ccc; color: #888;">Citations</a>
-
-                <!-- Group the remaining buttons to the right -->
-                <div>
-                    <button type="button" class="btn btn-secondary mr-2" id="learnMoreButton">Learn More</button>
-                    <!-- Modified the Next button to be a submit button for the form -->
-                    <button type="submit" class="btn btn-success">Accept</button>
-                </div>
+            <div class="scrollable-sidebar">
+                {% with current_race=current_race, ballot_data = ballot_data  %}
+                {% include 'race_sidebar.html' %}
+                {% endwith %}
             </div>
-                                </form>
-                            </div>
+        </div>
+
+        <!-- Right Column: Recommendation -->
+        <div class="col-md-8">
+            <h2> {{ current_race }} </h2>
+            <p>
+                {{ race_description }}
+            </p>
+            <div class="card">
+                <div class="card-body" id="recommendation">
+                    <div id="loader">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
                         </div>
-                        
+                        Using AI to load a personalized recommendation...
                     </div>
+
+                    <!-- Wrapped Recommendation Info -->
+                    <div id="recommendationInfo" style="display: none;">
+                        <h2 class="card-title" style="background-color: #f5f5f5; padding: 10px; border-radius: 8px; text-align: center;">Recommendation:</h2>
+                        <p class="card-text"></p>
+                        <!-- Buttons -->
+                        <div class="mt-3 text-right">
+                            <form action="{{ url_for('confirm') }}" method="get">
+                                <!-- Hidden input to store the recommended candidate's name -->
+                                <input type="hidden" name="candidate" value="{{ recommended_candidate.name }}">
+                                <input type="hidden" name="race" value="{{ quote(current_race) }}">
+
+                                <!-- Existing buttons, with the Learn More and Citations buttons modified -->
+                                <div class="d-flex justify-content-between">
+                                    <!-- Added Citations button with custom styling -->
+                                    <a href="https://ballotpedia.org/Mayoral_election_in_Oakland,_California_(2022)" target="_blank" class="btn btn-outline-secondary" style="border-color: #ccc; color: #888;">Citations</a>
+
+                                    <!-- Group the remaining buttons to the right -->
+                                    <div>
+                                        <button type="button" class="btn btn-secondary mr-2" id="learnMoreButton">Learn More</button>
+                                        <!-- Modified the Next button to be a submit button for the form -->
+                                        <button type="submit" class="btn btn-success">Accept</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
                 </div>
+            </div>
                 
                 <!-- Placeholder for Chatbot -->
                 <div class="mt-4">

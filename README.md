@@ -14,14 +14,50 @@ Complex ballots in regions like California often deter active participation, mak
 **Our Remedy**: 
 VoteWise utilizes cutting-edge AI and LLMs to parse each ballot measure and candidate. By proactively engaging with users, it identifies and aligns with their core values, offering precise voting recommendations. This ensures that voting is not only more intuitive but also truly representative.
 
----
+## Hackathon Judging Criteria
 
-## Enriched Conversations with OpenAI ChatGPT:
+Criterion: How will VoteWise align with the criterion? 
 
-Revolutionizing user interactions, our Open-Source Python-Based project harnesses the strength of OpenAI ChatGPT. This versatile integration offers users profound and engaging dialogues, suitable for diverse needs – from customer support, knowledge retrieval to casual banter. Experience a heightened conversational ecosystem like never before.
+### Relevance to Societal Challenges: 
 
----
+This problem directly addresses the global issue of the voting process being unreflective of individuals’ values or completely inaccessible to large segments of society given its level of complexity. As a result political, social and economic institutions around the world are unrepresentative of people’s diverse backgrounds. VoteWise directly aligns with UN SDG 16 of building inclusive institutions and societies and UN SDG 10 of reducing inequalities and increasing the representation of the underrepresented. It also aligns with UN SDG 11 &4. 
 
+
+
+### Real-World Impact: 
+
+This solution will ensure people around the world have the opportunity to have a direct impact on their communities and their countries by participating in a truly representative democratic process. We believe that for peace and justice to be sustainable all institutions must be representative of and held accountable to all of their citizens, not just the most educated, wealthy, or older populations who are much more likely to vote. 
+
+### Scalability and Sustainability: 
+ 
+This project is designed to scale throughout the world as it’s multi-channel and supports any language. We plan to make this project Open Source and so it can be scaled and easily maintain in any country around the world. 
+
+### Usability and Accessibility:
+
+This project is designed to be accessible to people of all backgrounds in a number of ways: Mutli-lingual, Voice enabled for hearing disabilities, Mobile and web app, Adaptive to different education levels  
+Innovative Use of AI:
+
+
+### Innovative Use of AI: 
+
+We use cutting edge AI models such as GPT4 and Claude that provide effective and high-accuracy abstractive summarization as well as complex reasoning capabilities and long context windows that allow integrating complex real world information about candidates’ positions and background.
+
+### Technical Execution: 
+
+An open source Flask-based web application. We minimize technical complexity to maximize maintainability and scalability. We use langchain to make calls as necessary to Anthropic and OpenAI APIs, and use Python web-scraping technologies to aggregate information about ballots and elections.
+
+### Presentation and Documentation: 
+See this document!
+
+### Responsible AI: 
+
+There is a risk of introducing misinformation. But the political media environment is already intensely polluted by candidates and campaigns deliberately flooding the public with misinformation. VoteWise can triangulate information from multiple sources (particularly sources we have curated for high credibility) in order to best estimate what’s likely to be true, and can admit when its knowledge is limited and can present opposing sides of an issue as necessary. We also aim to provide clear justification for all recommendations and to cite sources as much as possible.
+
+### Data Consent  & Privacy:
+
+We show a clear privacy and data use policy from users’ first point of contact with the app. We also emphasize data minimization and collect as little as we need to in order to make effective recommendations. We do not retain user information once they’ve finished using the service for a given location, minimizing the risk of data breach or loss.
+
+--- 
 ## Impact & Broader Vision:
 
 VoteWise is more than just technology; it's a movement towards a more inclusive society. By enhancing the voting experience, we champion:
@@ -40,7 +76,6 @@ By synchronizing genuine public sentiment with broader societal goals, we're cre
 With VoteWise's democratic insights and the advanced conversational capabilities of our Open-Source Python project, we're redefining the future of participatory democracy and AI-powered interactions. Join us in this transformative journey, making democracy more accessible and conversations richer.
 
 
-View the live site at http://votewise.radiantmachines.com/
 
 ## Prerequisites
 
