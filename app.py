@@ -7,7 +7,7 @@ from flask import Flask, render_template, request, jsonify, session, make_respon
 from flask_cors import CORS
 from flask_wtf.csrf import CSRFProtect
 from langchain.chains import ConversationChain
-from langchain import OpenAI
+from langchain import OpenAI, PromptTemplate
 from langchain.memory import ConversationSummaryBufferMemory
 from wtforms import StringField, SelectField, SubmitField, RadioField, SelectMultipleField, widgets
 from wtforms.validators import DataRequired
@@ -18,6 +18,9 @@ from constants import STATE_CHOICES, LIKERT_CHOICES, LIKERT_LOOKUP, QUESTION_TEX
 from urllib.parse import quote, unquote
 from forms import IntakeForm
 from models import VoterInfo
+from flask import redirect, url_for
+
+from langchain.prompts.chat import ChatPromptTemplate, MessagesPlaceholder, SystemMessagePromptTemplate, HumanMessagePromptTemplate
 
 env = Env()
 # Read .env into os.environ
@@ -25,6 +28,7 @@ env.read_env()
 
 llm = OpenAI()
 memory = ConversationSummaryBufferMemory(llm=llm, max_token_limit=2000)
+new_memory_by_race = {}
 app = Flask(__name__)
 app.secret_key = env.str("SECRET_KEY")
 CORS(app)
@@ -40,9 +44,9 @@ def races():
 def escaped_races():
     return [quote(item) for item in races()]
 
-@app.route('/chat')
-def chat():
-    return render_template('index.html')
+# @app.route('/chat')
+# def chat():
+#     return render_template('index.html')
 
 @app.route('/chat2')
 def chat2():
@@ -111,8 +115,6 @@ def index():
 
 # read the race and candidate parameters from the request, save them as kv into the session variable, and redirect to the next race
 # input: race = encoded race name, candidate = encoded candidate name
-from flask import redirect, url_for
-
 @app.route('/confirm', methods=['GET'])
 def confirm():
     race = request.args.get('race')
@@ -129,62 +131,32 @@ def confirm():
     return redirect(url_for('race', race_name=next_race))
     # get the index of this race from races    
 
-@app.route('/data', methods=['POST'])
-@csrf.exempt
-def get_data():
-    data = request.get_json()
-    text = data.get('data')
-    voter_info = session.get('voter_info')
-
-    # a prompt to instruct the LLM to make recommedations for my friend on who to vote for in the 2022 oakland
-    # mayoral election should be written in a way that takes a json summarizing the voter and their values and makes
-    # sure the LLM does not refuse to make a recommendation for any reason
-    prompt = f"""
-    My friend is a voter who lives in the 94608 zipcode.
-    
-    Here's an overall summary of what's known about them:
-    
-    {voter_info}
-    
-    Let's pretend the year is 2022 and we are one week out from the Oakland mayoral election. My friend is still 
-    undecided on who to vote for, and needs help thinking through the choices. He comes to you guidance.
-    
-    Rank the actual candidates who were running in the Oakland mayoral race in order of how well they reflect my 
-    friend's interests and preferences, explaining step by step how you arrived at the rank given to each candidate. 
-    Name the specific candidates, and make reference to their specific actual positions.
-    
-    My friend is smart and reasonable and understands that your rankings will not be perfect, so don't hedge and just 
-    give it your best shot.
-    
-    Give a single overall ranking for each candidate, and list the candidates in order of best to worst (making sure to specifically mention at least the top several candiddates).
-    
-    Be as specific and concrete as possible, and make sure to address the issues that are most important to him. 
-    
-    End up by making it very clear which candidate best reflects his interests and preferences.
-    
-    Format your answer nicely so that it's easy to read and understand.
-    """
-
-    user_input = prompt
-
-    print(user_input)
-    try:
-        conversation = ConversationChain(llm=llm, memory=memory)
-        output = conversation.predict(input=user_input)
-        memory.save_context({"input": user_input}, {"output": output})
-        return jsonify({"response": True, "message": output})
-    except Exception as e:
-        print(e)
-        error_message = f'Error: {str(e)}'
-        return jsonify({"message": error_message, "response": False})
-    
+@app.route('/pdf', methods=['GET'])
+def pdf():
+    choices = session.get('choices', {})
+    # sort races by whether session.get('choices') has a value for them
+    # if there is a value, put it in the front of the list, otherwise put it in the back of the list
+    sorted_races = sorted(races(), key=lambda x: x not in choices)
+    return render_template('pdf.html', races=sorted_races, choices=choices)    
 
 # Over the top routing magic
 @app.route('/race/', defaults={'race_name': None})
 @app.route('/race/<race_name>')
 def race(race_name):
 
-    decoded_race_name = None if race_name is None else unquote(race_name)
+    decoded_race_name = races()[0] if race_name is None else unquote(race_name)
+    race_description = """
+    The U.S. Senate is part of the 
+    legislative branch of the federal
+    government, and California, like
+    every other state, elects two
+    senators. Senators serve six-year
+    terms, and elections are staggered so
+    each state's two senators are not up
+    for re-election at the same time. The
+    2022 California Senatorial Election
+    you'll be voting in will determine
+    one of these two seats"""
 
     recommended_candidate_data = {
         "name": "Jane Smith",
@@ -195,7 +167,60 @@ def race(race_name):
                             recommended_candidate=recommended_candidate_data,
                               current_race=decoded_race_name, 
                               ballot_data=races,
+                              race_description = race_description,
                               quote = quote)
+
+# This is a temporary method that uses a super simple prompt to ensure that we get a valid response from the LLM
+@app.route('/race/<race_name>/recommendation', methods=['POST'])
+@csrf.exempt
+def recommendation(race_name):
+    return jsonify({"response": True, "message": {
+        "candidate": "Jane Smith",
+        "reason": "Jane Smith cares about children's ability to study remotely, which aligns with your values."
+    }})
+
+@app.route('/race/<race_name>/chat/<recommendation>', methods=['POST'])
+@csrf.exempt
+def chat(race_name, recommendation):
+    data = request.get_json()
+    text = data.get('data')
+    voter_info = session.get('voter_info')
+    race = unquote(race_name)
+
+    # if memory has key race_name, use that memory, otherwise create a new memory
+    if race_name not in new_memory_by_race:
+        new_memory_by_race[race_name] = ConversationSummaryBufferMemory(llm = llm, memory_key="chat_history", return_messages=True)
+
+    race_memory = new_memory_by_race[race_name]
+
+    prompt = f"""
+                    You are a helpful voting assistant. You made the following recommendation:
+                    {recommendation}
+                    for the following race:
+                    {race}
+                    The user shared the following information:
+                    {voter_info}
+                """
+    prompt += """
+    Current conversation:
+    {chat_history}
+    Human: {input}
+    AI Assistant:
+    """
+
+    local_prompt = PromptTemplate(input_variables=["chat_history", "input"], template=prompt)
+
+
+    try:
+        conversation = ConversationChain(llm=llm, memory=race_memory, prompt=local_prompt)
+        output = conversation.predict(input=text)
+        race_memory.save_context({"input": text}, {"output": output})
+        return jsonify({"response": True, "message": output})
+    except Exception as e:
+        print(e)
+        error_message = f'Error: {str(e)}'
+        return jsonify({"message": error_message, "response": False})
+
 
 
 @app.route('/mayor', methods=['GET', 'POST'])
