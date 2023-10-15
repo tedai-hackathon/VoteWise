@@ -119,11 +119,30 @@
         </fieldset>
         {% endfor %}
 
+        <!-- checkbox to accept data usage terms -->
+        <div class="form-group">
+            <p>We use your inputs to make personalized
+                voting recommendations. We pass your inputs to AI models to make the best recommendations, and those models
+                will do limited processing of your data. But we will never resell your data or share it for any other purpose. Please see our <a href="privacy_policy.html" target="_blank">Privacy Policy</a> for more details.</p>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="accept" value="accept">
+                Accept Privacy Policy
+            </label>
+        </div>
+
+
+
+
         <!-- Submit Button -->
         <div class="form-group">
+            <!-- privacy policy -->
+            <br>
             {{ form.submit(class="btn btn-primary") }}
+
         </div>
     </form>
+
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
