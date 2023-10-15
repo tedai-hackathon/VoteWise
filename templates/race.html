@@ -27,7 +27,13 @@
             <div class="col-md-4">
                 <div class="d-flex justify-content-between align-items-center">
                     <h5>Races</h5>
-                    <a href="/pdf" class="btn">Finish</a>
+                    <span>
+                        <a href="/pdf" class="btn">Export</a>
+                        <i class="bi bi-save"></i>
+                    </span>
+                    <span> Share
+                        <i class="bi bi-share"></i>
+                    </span>
                 </div>            
                 <div class="scrollable-sidebar">
                     {% with current_race=current_race, ballot_data = ballot_data  %}
@@ -95,7 +101,7 @@
 
         try {
             // code that might throw an exception
-           console.log({{ voter_info_json | safe    }});
+           console.log({{ voter_info_json | safe }});
         } catch (e) {
             console.error("An error occurred:", e.message);
         }
@@ -117,7 +123,7 @@
 
             // TODO: only do this if there isn't already a chat going on
             var textarea = document.getElementById('userinput');
-            textarea.value = "I don't think this is the right choice for me, can you tell me what other candidates might be appropriate?";
+            textarea.value = "I don't think this is the right choice for me. Can I ask you some follow up questions?";
             setTimeout(function() { formsubmitted(), 4000}) // this is a hack since this method is implemented in chat.html
             
         });

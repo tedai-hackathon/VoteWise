@@ -27,7 +27,7 @@ env = Env()
 env.read_env()
 
 anthropic = Anthropic()
-llm = ChatOpenAI(model_name='gpt-4')
+llm = ChatOpenAI(model_name='gpt-3.5-turbo')
 memory = ConversationSummaryBufferMemory(llm=llm, max_token_limit=2000)
 new_memory_by_race = {}
 app = Flask(__name__)
@@ -384,8 +384,8 @@ def race_recommendation(race_name):
         }
     else:
         recommended_candidate_data = {
-            "name": "Jane Smith",
-            "reason": "Jane Smith cares about children's ability to study remotely, which aligns with your values."
+            "name": "Alex Padilla, Democratic",
+            "reason": "Alex Padilla shares your view on housing affordability (score 90)"
         }
 
     # add recommendation to the session
