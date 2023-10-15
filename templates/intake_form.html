@@ -146,12 +146,17 @@ fieldset {
             <div class="form-check form-check-inline">
                 {% for subfield in form[question] %}
                 <label class="form-check-label likert-label">
+                    {% if loop.index == loop.length %}
+                    {{ subfield(checked=True) }} {{ subfield.label }}
+                    {% else %}
                     {{ subfield }} {{ subfield.label }}
+                    {% endif %}
                 </label>
                 {% endfor %}
             </div>
         </fieldset>
         {% endfor %}
+
 
         <!-- Submit Button -->
         <div class="form-group">
