@@ -72,6 +72,9 @@
     width: 100px;
     height: 100px;
     overflow: hidden;
+    border-radius:50px;
+    border:1px solid #ccc;
+    box-shadow: 5px 5px 10px #ddd;
 }
 
 /* Style for the video */
