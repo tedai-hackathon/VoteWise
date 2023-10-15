@@ -27,7 +27,7 @@ env = Env()
 env.read_env()
 
 anthropic = Anthropic()
-llm = ChatOpenAI(model_name='gpt-4')
+llm = ChatOpenAI(model_name='gpt-3.5-turbo')
 memory = ConversationSummaryBufferMemory(llm=llm, max_token_limit=2000)
 new_memory_by_race = {}
 app = Flask(__name__)
@@ -95,9 +95,11 @@ def skip_intake(be_conservative=True):
     print(f"updating session with {voter_info}")
     session['voter_info'] = voter_info
     session.modified = True
-    response = make_response('', 204)
-    response.mimetype = 'application/json'
-    return response
+    return redirect(url_for('race'))
+
+    # response = make_response('', 204)
+    # response.mimetype = 'application/json'
+    # return response
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -113,6 +115,8 @@ def index():
 
         session.modified = True
         print(form_data)
+        print("in form")
+        return redirect(url_for('race'))
         return jsonify(form_data)
     return render_template('intake_form.html', form=form)
 
@@ -352,7 +356,9 @@ def race(race_name):
                            current_race=decoded_race_name,
                            ballot_data=races,
                            race_description=race_description,
-                           quote=quote)
+                           quote=quote,
+                           voter_info_json=voter_info_json
+                           )
 
 @app.route('/race/', defaults={'race_name': None}, methods=['POST'])
 @app.route('/race/<race_name>/recommendation', methods=['POST'])
@@ -381,8 +387,8 @@ def race_recommendation(race_name):
         }
     else:
         recommended_candidate_data = {
-            "name": "Jane Smith",
-            "reason": "Jane Smith cares about children's ability to study remotely, which aligns with your values."
+            "name": "Alex Padilla, Democratic",
+            "reason": "Alex Padilla shares your view on housing affordability (score 90)"
         }
 
     # add recommendation to the session
