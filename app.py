@@ -13,6 +13,7 @@ from flask_cors import CORS
 from flask_wtf.csrf import CSRFProtect
 from langchain import OpenAI, PromptTemplate
 from langchain.chains import ConversationChain
+from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationSummaryBufferMemory
 
 from constants import OAKLAND_MAYOR_CANDIDATES
@@ -26,7 +27,7 @@ env = Env()
 env.read_env()
 
 anthropic = Anthropic()
-llm = OpenAI()
+llm = ChatOpenAI(model_name='gpt-4')
 memory = ConversationSummaryBufferMemory(llm=llm, max_token_limit=2000)
 new_memory_by_race = {}
 app = Flask(__name__)
@@ -204,8 +205,10 @@ def extract_key_from_json(json_data, key, human_readable=False):
 
     if human_readable:
         prompt += """\n
-        Also reformat the data to be human readable in natural english. Try to retain any formatting or structure that ads
-        clarity, but do not include any computer or programming syntax.
+        Also reformat the data to be in HTML that can inserted directly into a web page, and will then be human readable in natural english.
+         Try to use the HTML to retain any formatting or structure that ads
+        clarity, but remember this HTML will be inserted directly into a webpage DOM by javascript so it should not cause any rendering problems when inserted.
+        Remove any extraneous characters or quotation marks.
         """
 
     completion = anthropic.completions.create(
@@ -381,6 +384,10 @@ def race_recommendation(race_name):
             "reason": "Jane Smith cares about children's ability to study remotely, which aligns with your values."
         }
 
+    # add recommendation to the session
+    session['recommendation'] = recommended_candidate_data
+    session.modified = True
+
     return jsonify({"response": True, "message": recommended_candidate_data})
 
 
@@ -392,6 +399,11 @@ def chat(race_name, recommendation):
     voter_info = session.get('voter_info')
     race = unquote(race_name)
 
+    # retrieve recommendation from session
+    recommendation = session.get('recommendation')
+
+
+
     # if memory has key race_name, use that memory, otherwise create a new memory
     if race_name not in new_memory_by_race:
         new_memory_by_race[race_name] = ConversationSummaryBufferMemory(llm=llm, memory_key="chat_history",
@@ -401,24 +413,28 @@ def chat(race_name, recommendation):
 
     prompt = f"""
                     You are a helpful voting assistant. You made the following recommendation:
-                    {recommendation}
+                    {recommendation['name']}
                     for the following race:
                     {race}
-                    The user shared the following information:
-                    {voter_info}
+
+                    This was your justification:
+                    {recommendation['reason']}
                 """
     prompt += """
+
     Current conversation:
     {chat_history}
     Human: {input}
     AI Assistant:
     """
 
+    # TODO: figure out how to put voter info back into the prompt
+    # also ideally candidate summaries
     local_prompt = PromptTemplate(input_variables=["chat_history", "input"], template=prompt)
 
     try:
         conversation = ConversationChain(llm=llm, memory=race_memory, prompt=local_prompt)
-        output = conversation.predict(input=text)
+        output = conversation.predict(input=text,)
         race_memory.save_context({"input": text}, {"output": output})
         return jsonify({"response": True, "message": output})
     except Exception as e:
