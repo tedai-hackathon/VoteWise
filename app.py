@@ -258,6 +258,19 @@ def race_recommendation(race_name):
             candidate_summaries = json.load(f)
         score_candidates_for_mayor(candidate_summaries, voter_info_json, voter_info_hash)
 
+    recommended_candidate_data = {
+        "name": "Jane Smith",
+        "reason": "Jane Smith cares about children's ability to study remotely, which aligns with your values."
+    }
+
+    decoded_race_name = None if race_name is None else unquote(race_name)
+
+    return render_template('race.html', races=races(),
+                           recommended_candidate=recommended_candidate_data,
+                           current_race=decoded_race_name,
+                           ballot_data=races,
+                           quote=quote)
+
 
 # Over the top routing magic
 @app.route('/race/', defaults={'race_name': None})
