@@ -92,6 +92,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
+        console.log({{ voter_info_json | safe    }});
      document.addEventListener('DOMContentLoaded', function() {
         // Get the button elements by their IDs
         var learnMoreBtn = document.getElementById('learnMoreButton');

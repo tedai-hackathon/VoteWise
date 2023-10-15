@@ -353,7 +353,9 @@ def race(race_name):
                            current_race=decoded_race_name,
                            ballot_data=races,
                            race_description=race_description,
-                           quote=quote)
+                           quote=quote,
+                           voter_info_json=voter_info_json
+                           )
 
 @app.route('/race/', defaults={'race_name': None}, methods=['POST'])
 @app.route('/race/<race_name>/recommendation', methods=['POST'])
