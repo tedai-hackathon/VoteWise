@@ -61,15 +61,20 @@ class VoterInfo:
         based on the LIKERT_CHOICES mapping.
         :return: str
         """
-        fields = self.__dict__
+        to_output = {}
+        for k, v in self.__dict__.items():
+            # exclude address and city
+            if k not in ['street_address', 'city']:
+                to_output[k] = v
+
         for likert_val in self.likert_choices:
-            numeric_val = fields[likert_val]
+            numeric_val = to_output[likert_val]
             if numeric_val in LIKERT_LOOKUP:
-                fields[likert_val] = {
+                to_output[likert_val] = {
                     'question': QUESTION_TEXT[likert_val],
                     'response': LIKERT_LOOKUP[numeric_val]
                 }
-        return json.dumps(fields)
+        return json.dumps(to_output)
 
 
 class VoterInfoEncoder(json.JSONEncoder):
