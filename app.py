@@ -138,6 +138,11 @@ def quick_recommendation():
         "reason": "Jane Smith cares about children's ability to study remotely, which aligns with your values."
     }})
 
+@app.route('/display-choices', methods=['GET'])
+def display_choices():
+    choices = session.get('choices', {})
+    return render_template('display_choices.html', races=races(), choices=choices)
+
 
 
 @app.route('/data', methods=['POST'])
