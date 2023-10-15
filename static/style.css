@@ -89,11 +89,3 @@
     overflow: hidden;
     transition: max-height 2s ease-out;
 }
-
-#micIcon {
-    right: 45px;
-    top: 6px;
-    color: grey;
-    cursor: pointer;
-    z-index: 2;
-}
