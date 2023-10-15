@@ -198,6 +198,18 @@ def get_data():
 def race(race_name):
 
     decoded_race_name = None if race_name is None else unquote(race_name)
+    race_description = """
+The U.S. Senate is part of the 
+legislative branch of the federal
+government, and California, like
+every other state, elects two
+senators. Senators serve six-year
+terms, and elections are staggered so
+each state's two senators are not up
+for re-election at the same time. The
+2022 California Senatorial Election
+you'll be voting in will determine
+one of these two seats"""
 
     recommended_candidate_data = {
         "name": "Jane Smith",
@@ -208,6 +220,7 @@ def race(race_name):
                             recommended_candidate=recommended_candidate_data,
                               current_race=decoded_race_name, 
                               ballot_data=races,
+                              race_description = race_description,
                               quote = quote)
 
 
