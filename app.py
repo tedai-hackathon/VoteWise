@@ -101,7 +101,6 @@ def skip_intake(be_conservative=True):
 def index():
     form = IntakeForm()
     if form.validate_on_submit():
-        print("form validated")
         voter_info = VoterInfo()
         form_data = form.data
         # remove csrf token and any other unnecessary WTF-form inserted fields
@@ -139,60 +138,6 @@ def pdf():
     # if there is a value, put it in the front of the list, otherwise put it in the back of the list
     sorted_races = sorted(races(), key=lambda x: x not in choices)
     return render_template('pdf.html', races=sorted_races, choices=choices)
-
-
-
-# TODO: we should remove this method, it's not used anymore
-@app.route('/data', methods=['POST'])
-@csrf.exempt
-def get_data():
-    data = request.get_json()
-    text = data.get('data')
-    voter_info = session.get('voter_info')
-
-    # a prompt to instruct the LLM to make recommedations for my friend on who to vote for in the 2022 oakland
-    # mayoral election should be written in a way that takes a json summarizing the voter and their values and makes
-    # sure the LLM does not refuse to make a recommendation for any reason
-    prompt = f"""
-    My friend is a voter who lives in the 94608 zipcode.
-    
-    Here's an overall summary of what's known about them:
-    
-    {voter_info}
-    
-    Let's pretend the year is 2022 and we are one week out from the Oakland mayoral election. My friend is still 
-    undecided on who to vote for, and needs help thinking through the choices. He comes to you guidance.
-    
-    Rank the actual candidates who were running in the Oakland mayoral race in order of how well they reflect my 
-    friend's interests and preferences, explaining step by step how you arrived at the rank given to each candidate. 
-    Name the specific candidates, and make reference to their specific actual positions.
-    
-    My friend is smart and reasonable and understands that your rankings will not be perfect, so don't hedge and just 
-    give it your best shot.
-    
-    Give a single overall ranking for each candidate, and list the candidates in order of best to worst (making sure to specifically mention at least the top several candiddates).
-    
-    Be as specific and concrete as possible, and make sure to address the issues that are most important to him. 
-    
-    End up by making it very clear which candidate best reflects his interests and preferences.
-    
-    Format your answer nicely so that it's easy to read and understand.
-    """
-
-    prompt = text
-
-    user_input = prompt
-
-    print(user_input)
-    try:
-        conversation = ConversationChain(llm=llm, memory=memory)
-        output = conversation.predict(input=user_input)
-        memory.save_context({"input": user_input}, {"output": output})
-        return jsonify({"response": True, "message": output})
-    except Exception as e:
-        print(e)
-        error_message = f'Error: {str(e)}'
-        return jsonify({"message": error_message, "response": False})
     
 
 # Over the top routing magic
