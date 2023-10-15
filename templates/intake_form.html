@@ -174,17 +174,38 @@
                 {% set likert_questions = ['housing', 'economy', 'environment', 'immigration', 'income_inequality',
                 'transportation', 'education', 'healthcare', 'public_safety', 'taxation'] %}
                 {% for question in likert_questions %}
-                <fieldset class="form-group">
-                    <legend>{{ form[question].                label.text }}</legend>
-                    {% for subfield in form[question] %}
-                    <label class="likert-label">
-                        {{ subfield }}
-                        {{ subfield.label.text }}
-                    </label>
-                    {% endfor %}
-                </fieldset>
+                    <fieldset class="form-group" {% if loop.index > 4 %}style="display: none;"{% endif %}>
+                        <legend>{{ form[question].label }}</legend>
+                        <div class="form-check form-check-inline">
+                            {% for subfield in form[question] %}
+                            <label class="form-check-label likert-label">
+                                {% if loop.index == loop.length %}
+                                {{ subfield(checked=True) }} {{ subfield.label }}
+                                {% else %}
+                                {{ subfield }} {{ subfield.label }}
+                                {% endif %}
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </fieldset>
                 {% endfor %}
+                <p>We will ask more questions as the guide requires more information...</p>
 
+                <input type="hidden" name="selected_language" id="selectedLanguage" value="English">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      English
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="languageDropdown">
+                        <a class="dropdown-item" href="#" data-lang="English">English</a>
+                        <a class="dropdown-item" href="#" data-lang="Spanish">Español</a>
+                        <a class="dropdown-item" href="#" data-lang="Vietnamese">Tiếng Việt</a>
+                        <a class="dropdown-item" href="#" data-lang="Mandarin">中文</a>
+                        <a class="dropdown-item" href="#" data-lang="Russian">Русский</a>
+                    </div>
+                </div> 
+                
+                <br/>
                 <!-- Submit Button -->
                 <div class="form-group">
                     <input type="submit" class="btn btn-primary" value="Submit">
@@ -217,6 +238,23 @@
             function decreaseSize() {
                 adjustFontSize(-STEP);
             }
+
+            $(document).ready(function() {
+                $(".dropdown-item").on("click", function() {
+                    // Get the selected language in its respective script from the anchor text
+                    event.preventDefault();
+                    var selectedLanguageScript = $(this).text();
+                    
+                    // Update the dropdown button's text to reflect the selected language
+                    $("#languageDropdown").text(selectedLanguageScript);
+
+                    // Get the selected language English name from data-lang attribute
+                    var selectedLangEnglishName = $(this).data("lang");
+                    
+                    // Update the hidden input field with the English name
+                    $("#selectedLanguage").val(selectedLangEnglishName);
+                });
+            });
         </script>
     </body>
 
