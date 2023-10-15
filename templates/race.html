@@ -114,7 +114,7 @@
         loader.style.display = "block";
         
         // Make the AJAX call
-        fetch('/quick-recommendation', {
+        fetch('/race/{{quote(current_race)}}/recommendation', {
             method: 'POST'
         }) // Replace with the actual route to the quick_recommendation function
         .then(response => response.json())

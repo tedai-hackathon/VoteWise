@@ -85,7 +85,7 @@
         document.getElementById('userinput').value = ""
         document.getElementById('userinput').placeholder = "Wait . . ."
 
-        const response = await fetch("/data", {
+        const response = await fetch("/race/{{quote(current_race)}}/chat/vlad", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

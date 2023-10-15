@@ -7,7 +7,7 @@ from flask import Flask, render_template, request, jsonify, session, make_respon
 from flask_cors import CORS
 from flask_wtf.csrf import CSRFProtect
 from langchain.chains import ConversationChain
-from langchain import OpenAI
+from langchain import OpenAI, PromptTemplate
 from langchain.memory import ConversationSummaryBufferMemory
 from wtforms import StringField, SelectField, SubmitField, RadioField, SelectMultipleField, widgets
 from wtforms.validators import DataRequired
@@ -18,6 +18,9 @@ from constants import STATE_CHOICES, LIKERT_CHOICES, LIKERT_LOOKUP, QUESTION_TEX
 from urllib.parse import quote, unquote
 from forms import IntakeForm
 from models import VoterInfo
+from flask import redirect, url_for
+
+from langchain.prompts.chat import ChatPromptTemplate, MessagesPlaceholder, SystemMessagePromptTemplate, HumanMessagePromptTemplate
 
 env = Env()
 # Read .env into os.environ
@@ -25,6 +28,7 @@ env.read_env()
 
 llm = OpenAI()
 memory = ConversationSummaryBufferMemory(llm=llm, max_token_limit=2000)
+new_memory_by_race = {}
 app = Flask(__name__)
 app.secret_key = env.str("SECRET_KEY")
 CORS(app)
@@ -40,9 +44,9 @@ def races():
 def escaped_races():
     return [quote(item) for item in races()]
 
-@app.route('/chat')
-def chat():
-    return render_template('index.html')
+# @app.route('/chat')
+# def chat():
+#     return render_template('index.html')
 
 @app.route('/chat2')
 def chat2():
@@ -111,7 +115,7 @@ def index():
 
 # read the race and candidate parameters from the request, save them as kv into the session variable, and redirect to the next race
 # input: race = encoded race name, candidate = encoded candidate name
-from flask import redirect, url_for
+
 
 @app.route('/confirm', methods=['GET'])
 def confirm():
@@ -129,22 +133,14 @@ def confirm():
     return redirect(url_for('race', race_name=next_race))
     # get the index of this race from races    
 
-# This is a temporary method that uses a super simple prompt to ensure that we get a valid response from the LLM
-@app.route('/quick-recommendation', methods=['POST'])
-@csrf.exempt
-def quick_recommendation():
-    return jsonify({"response": True, "message": {
-        "candidate": "Jane Smith",
-        "reason": "Jane Smith cares about children's ability to study remotely, which aligns with your values."
-    }})
-
-@app.route('/display-choices', methods=['GET'])
-def display_choices():
+@app.route('/pdf', methods=['GET'])
+def pdf():
     choices = session.get('choices', {})
-    return render_template('display_choices.html', races=races(), choices=choices)
+    return render_template('pdf.html', races=races(), choices=choices)
 
 
 
+# TODO: we should discontinue this method
 @app.route('/data', methods=['POST'])
 @csrf.exempt
 def get_data():
@@ -227,6 +223,58 @@ one of these two seats"""
                               ballot_data=races,
                               race_description = race_description,
                               quote = quote)
+
+# This is a temporary method that uses a super simple prompt to ensure that we get a valid response from the LLM
+@app.route('/race/<race_name>/recommendation', methods=['POST'])
+@csrf.exempt
+def recommendation(race_name):
+    return jsonify({"response": True, "message": {
+        "candidate": "Jane Smith",
+        "reason": "Jane Smith cares about children's ability to study remotely, which aligns with your values."
+    }})
+
+@app.route('/race/<race_name>/chat/<recommendation>', methods=['POST'])
+@csrf.exempt
+def chat(race_name, recommendation):
+    data = request.get_json()
+    text = data.get('data')
+    voter_info = session.get('voter_info')
+    race = unquote(race_name)
+
+    # if memory has key race_name, use that memory, otherwise create a new memory
+    if race_name not in new_memory_by_race:
+        new_memory_by_race[race_name] = ConversationSummaryBufferMemory(llm = llm, memory_key="chat_history", return_messages=True)
+
+    race_memory = new_memory_by_race[race_name]
+
+    prompt = f"""
+                    You are a helpful voting assistant. You made the following recommendation:
+                    {recommendation}
+                    for the following race:
+                    {race}
+                    The user shared the following information:
+                    {voter_info}
+                """
+    prompt += """
+    Current conversation:
+    {chat_history}
+    Human: {input}
+    AI Assistant:
+    """
+
+    local_prompt = PromptTemplate(input_variables=["chat_history", "input"], template=prompt)
+
+
+    try:
+        conversation = ConversationChain(llm=llm, memory=race_memory, prompt=local_prompt)
+        output = conversation.predict(input=text)
+        race_memory.save_context({"input": text}, {"output": output})
+        return jsonify({"response": True, "message": output})
+    except Exception as e:
+        print(e)
+        error_message = f'Error: {str(e)}'
+        return jsonify({"message": error_message, "response": False})
+
 
 
 @app.route('/mayor', methods=['GET', 'POST'])
