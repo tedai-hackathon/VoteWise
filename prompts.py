@@ -161,5 +161,4 @@ INITIAL_RECOMMENDATION_PROMPT = """
     Format your answer nicely so that it's easy to read and understand.
     """
 
-template = INITIAL_RECOMMENDATION_PROMPT
 
