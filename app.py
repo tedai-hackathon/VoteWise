@@ -37,16 +37,15 @@ csrf = CSRFProtect(app)
 with open(os.path.join(app.root_path, 'static', 'ballot.json'), 'r') as f:
     ballot_data = json.load(f)
 
+with open(os.path.join(app.root_path, 'static', 'ballot-descriptions.json'), 'r') as f:
+    ballot_descriptions = json.load(f)
+
 def races():
     new_list = (list(ballot_data.keys()) + list(ballot_data.get('Propositions').keys()))
     return new_list
 
 def escaped_races():
     return [quote(item) for item in races()]
-
-# @app.route('/chat')
-# def chat():
-#     return render_template('index.html')
 
 @app.route('/chat2')
 def chat2():
@@ -145,18 +144,7 @@ def pdf():
 def race(race_name):
 
     decoded_race_name = races()[0] if race_name is None else unquote(race_name)
-    race_description = """
-    The U.S. Senate is part of the 
-    legislative branch of the federal
-    government, and California, like
-    every other state, elects two
-    senators. Senators serve six-year
-    terms, and elections are staggered so
-    each state's two senators are not up
-    for re-election at the same time. The
-    2022 California Senatorial Election
-    you'll be voting in will determine
-    one of these two seats"""
+    race_description = ballot_descriptions[decoded_race_name] if decoded_race_name in ballot_descriptions else "This race is full of intrigue and mystery. We don't know much about it yet."
 
     recommended_candidate_data = {
         "name": "Jane Smith",
