@@ -92,7 +92,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        console.log({{ voter_info_json | safe    }});
+
+        try {
+            // code that might throw an exception
+           console.log({{ voter_info_json | safe    }});
+        } catch (e) {
+            console.error("An error occurred:", e.message);
+        }
+
+
      document.addEventListener('DOMContentLoaded', function() {
         // Get the button elements by their IDs
         var learnMoreBtn = document.getElementById('learnMoreButton');
