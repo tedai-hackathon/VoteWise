@@ -129,6 +129,17 @@ def confirm():
     return redirect(url_for('race', race_name=next_race))
     # get the index of this race from races    
 
+# This is a temporary method that uses a super simple prompt to ensure that we get a valid response from the LLM
+@app.route('/quick-recommendation', methods=['POST'])
+@csrf.exempt
+def quick_recommendation():
+    return jsonify({"response": True, "message": {
+        "candidate": "Jane Smith",
+        "reason": "Jane Smith cares about children's ability to study remotely, which aligns with your values."
+    }})
+
+
+
 @app.route('/data', methods=['POST'])
 @csrf.exempt
 def get_data():
