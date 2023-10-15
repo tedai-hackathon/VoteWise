@@ -23,6 +23,7 @@ langsmith==0.0.26
 MarkupSafe==2.1.2
 marshmallow==3.20.1
 multidict==6.0.4
+anthropic
 mypy-extensions==1.0.0
 numexpr==2.8.5
 numpy==1.25.2
@@ -51,3 +52,5 @@ wtforms
 BeautifulSoup4
 pandas
 wikipedia-api
+canonicaljson
+ipdb

@@ -70,3 +70,7 @@ QUESTION_TEXT = {
     'public_safety': "Community programs are more effective than traditional law enforcement in California.",
     'taxation': "Progressive taxation is more beneficial than lower taxes for all in California."
 }
+
+OAKLAND_MAYOR_CANDIDATES = ['Loren Manuel Taylor', 'Sheng Thao', 'Ignacio De La Fuente', 'Allyssa Victory Villanueva',
+                            'Treva D. Reid', 'Gregory Hodge', 'Seneca Scott', 'John Reimann', 'Peter Y. Liu',
+                            'Tyron C. Jordan']

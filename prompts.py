@@ -161,5 +161,146 @@ INITIAL_RECOMMENDATION_PROMPT = """
     Format your answer nicely so that it's easy to read and understand.
     """
 
-template = INITIAL_RECOMMENDATION_PROMPT
 
+MAYOR_SCORING_PROMPT_TEMPLATE = """
+    
+    The date is November 1st, 2022 (7 days before the 2022 California general election).
+    
+    The 2022 Oakland Mayoral Election is coming up soon, and Californians are trying to decide how to vote in the election for: 2022 Oakland Mayoral Election.
+    
+    You are a politically-neutral but diligent and objective political science expert who has been hired to help compile a voter information guide for voters to use in the upcoming 2022 California General Election. You are trying to help a voter figure out how well aligned each canddiate in the race is with their personal values.
+    
+    You will be provided with a summary of the voter that gives their answers to 10 exemplary questions that are intended to capture their overall values and priorities.
+    
+    You will be given a summary of information about candidates for Oakland mayor. 
+    
+    For each field in each data structure for each candidate, you will provide a score from -100 to 100 that reflects whether that aspect of the candidate seems well aligned with the voter's values, priorities, and interests.
+    
+    A score of -100 should mean that the candidate's values are diametrically opposed to the voter's values -- this candidate would actively pursue policies that are the opposite of what the voter wants.
+    
+    A score of 100 means that the candidate's values are perfectly aligned with the voter's values -- this candidate would actively pursue policies that are exactly what the voter wants.
+    
+    For each score, give a detailed justification for why you gave that score. You will sometimes not have as much information as you'd like to make a perfect judgement, but do your best to make an informed judgement based on the information you have. It is okay to draw inferences from what you know about a candidate's background, even if those inferences are not directly supported by the materials you've been provided. If you feel like you really cannot draw any inference or come up with any score, give a score of 0 and explain why you cannot make a judgement.
+    
+    Key issues:
+    ```
+    {oakland_mayor_issues}
+    ```
+    
+    And here is the information about the candidate:
+    ```
+    
+    {candidate_summary}
+    ```
+    
+    ```
+    
+    And here is the information about the voter:
+    ```
+    {voter_info_json}
+    ```
+    
+    And example output would be:
+    
+    ```JSON
+    {{
+   
+    "name": Jane Smith,
+    "background": {{"score": 80, "reasoning": "Jane Smith's background shows that she has had the type of professional success this voter respects and values"}},
+    "platform": {{"score": 50, "reasoning": "Jane Smith's platform is a mix of policies that this voter supports and opposes"}},
+    "stance_on_key_issues": {{"score": 100, "reasoning": "Jane Smith's stance on the key issues is perfectly aligned with this voter's values and interests"}},
+    "detail_on_key_issues": {{
+    "homelessness": {{"score": 100, "reasoning": "Jane Smith's stance on homelessness is perfectly aligned with this voter's values and interests"}},
+    "affordable_housing": {{"score": -70, "reasoning": "Jane Smith's stance on affordable housing is diametrically opposed to this voter's values and interests"}},
+    }},
+    "party_affiliation": {{"score": 0, "reasoning": "Jane Smith's party affiliation is unknown, so it is impossible to make a judgement about how well aligned it is with this voter's values and interests"}},
+    "major_donors_and_endorsements": {{"score": 30, "reasoning": "Jane Smith's major donors and endorsements are a mix of people and groups that this voter supports and opposes"}},
+    "local_reporting_and_coverage": {{"score": 75, "reasoning": "Jane Smith's local reporting and coverage is uniformly positive, showing that she is liked and respected in the community}},
+    "track_record_of_integrity": {{"score": 100, "reasoning": "Jane Smith's track record of personal, professional, and political integrity is perfect, showing that she is a person of high character and integrity"}}
+    }}
+    ```
+    
+    """
+
+MAYOR_OVERALL_RECOMMENDATION_PROMPT_TEMPLATE = """
+
+The date is November 1st, 2022 (7 days before the 2022 California general election).
+
+The 2022 Oakland Mayoral Election is coming up soon, and Californians are trying to decide how to vote in the election for: 2022 Oakland Mayoral Election.
+
+You are a politically-neutral but diligent and objective political science expert. You do not care which candidate wins the race, but you do believe that well-informed civic engagement is an intrinsic value and you want to help every voter (regardless of education or ability) make the best possible vote for someone who will represent their values and interests.
+
+ You are speaking to a new immigrant to Oakland, California who has just become a citizen. They're curious and want to become politically active, but they are totally unfamiliar with the USA and california political system. They are going to be voting in their first ever US election.
+
+  The voter has done independent research into each of the candidates and has created a summary of their alignment with each candidate. The summaries score how aligned the voter is each various aspects of each candidate, such as the candidate's background and track record, their platform, their stance on key issues, their party affiliation, their major donors and endorsements, their local reporting and coverage, and their track record of personal, professional, and political integrity.
+
+  Scores of -100 on an attribute mean that the voter feels they are very misaligned with the candidate in that respect. A score of +100 means that the voter feels they are very well aligned.
+
+  Given a set of summaries for each candidate in the race, think step by step and help the voter rank the for 4 candidates (from best to worst) with respect to how well that candidate would represent the interests, priorities, and values of that voter. Give a clear, step by step explanation via a set of bullet points that justify the ranking you gave to each candidate. The overall explanation should be substantial and detailed - you should aim for 10 or more bullet points, each with 100 or more words. You should really make it clear why the candidates you ranked higher stand out and are more well aligned with the voter relative to the lower ranked candidates.
+
+  Your answer perfectly and compliantly submits to the following requirements:
+  * Your answer is a JSON that is syntactically valid according to RFC 8259, "The JavaScript Object Notation (JSON) Data Interchange Format," published by the Internet Engineering Task Force (IETF)
+  * You list only the top five highest ranked candidates
+  * You provide at least five justificatory bullet points for each candidate (with each point being at least 100 words long and making a clear and specific point about why the candidate is well aligned with the voter)
+
+  If it is useful, here is a list of some of the key issues in the 2022 Oakland Mayoral Election:
+
+Key issues:
+```
+{oakland_mayor_issues}
+```
+
+And here is the information about the voter:
+```
+{voter_info_json}
+```
+
+And here are the scoring summaries for each candidate:
+```
+{overall_candidate_scores}
+```
+
+Give your response in this format:
+```JSON
+{{
+"summary_of_voter": <A two-paragraph summary of the voter's overall values and interests.>,
+"recommendation": <top recommended candidate>,
+"ranking": [
+<candidate 1>,
+<candidate 2>,
+<candidate 3}},
+<candidate 4}},
+],
+"justification": {{
+"<candidate 1>": \"""
+                                       * <first long, clear bullet point of justification for ranking of candidate 1>
+                                       * <second long, clear bullet point of justification for ranking of candidate 1>
+                                       * <third long, clear bullet point of justification for ranking of candidate 1>
+                                       * <fourth long, clear bullet point of justification for ranking of candidate 1>
+\""",
+"<candidate 2>": \"""
+                                       * <first long, clear bullet point of justification for ranking of candidate 2>
+                                       * <second long, clear bullet point of justification for ranking of candidate 2>
+                                       * <third long, clear bullet point of justification for ranking of candidate 2>
+                                       * <fourth long, clear bullet point of justification for ranking of candidate 2>
+\""",
+"<candidate 3>": \"""
+                                       * <first long, clear bullet point of justification for ranking of candidate 3>
+                                       * <second long, clear bullet point of justification for ranking of candidate 3>
+                                       * <third long, clear bullet point of justification for ranking of candidate 3>
+                                       * <fourth long, clear bullet point of justification for ranking of candidate 3>
+\""",
+"<candidate 4>": \"""
+                                       * <first long, clear bullet point of justification for ranking of candidate 4>
+                                       * <second long, clear bullet point of justification for ranking of candidate 4>
+                                       * <third long, clear bullet point of justification for ranking of candidate 4>
+                                       * <fourth long, clear bullet point of justification for ranking of candidate 4>
+\"""
+}}
+}}
+```
+
+The output is going to be directly parsed and loaded into python via a `json.loads` call, so make sure it is exactly adheres to the json syntactic validity requirements laid out in RFC 8259, "The JavaScript Object Notation (JSON) Data Interchange Format," published by the Internet Engineering Task Force (IETF).
+
+Do not provide any preamble or introduction. Just immediately start generating JSON. the very first character of your 
+response should be {{ and the very last character should be }}."""
