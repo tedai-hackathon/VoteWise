@@ -101,6 +101,7 @@ def skip_intake(be_conservative=True):
 def index():
     form = IntakeForm()
     if form.validate_on_submit():
+        print("form validated")
         voter_info = VoterInfo()
         form_data = form.data
         # remove csrf token and any other unnecessary WTF-form inserted fields
@@ -115,8 +116,6 @@ def index():
 
 # read the race and candidate parameters from the request, save them as kv into the session variable, and redirect to the next race
 # input: race = encoded race name, candidate = encoded candidate name
-
-
 @app.route('/confirm', methods=['GET'])
 def confirm():
     race = request.args.get('race')
@@ -136,11 +135,14 @@ def confirm():
 @app.route('/pdf', methods=['GET'])
 def pdf():
     choices = session.get('choices', {})
-    return render_template('pdf.html', races=races(), choices=choices)
+    # sort races by whether session.get('choices') has a value for them
+    # if there is a value, put it in the front of the list, otherwise put it in the back of the list
+    sorted_races = sorted(races(), key=lambda x: x not in choices)
+    return render_template('pdf.html', races=sorted_races, choices=choices)
 
 
 
-# TODO: we should discontinue this method
+# TODO: we should remove this method, it's not used anymore
 @app.route('/data', methods=['POST'])
 @csrf.exempt
 def get_data():
@@ -198,19 +200,19 @@ def get_data():
 @app.route('/race/<race_name>')
 def race(race_name):
 
-    decoded_race_name = None if race_name is None else unquote(race_name)
+    decoded_race_name = races()[0] if race_name is None else unquote(race_name)
     race_description = """
-The U.S. Senate is part of the 
-legislative branch of the federal
-government, and California, like
-every other state, elects two
-senators. Senators serve six-year
-terms, and elections are staggered so
-each state's two senators are not up
-for re-election at the same time. The
-2022 California Senatorial Election
-you'll be voting in will determine
-one of these two seats"""
+    The U.S. Senate is part of the 
+    legislative branch of the federal
+    government, and California, like
+    every other state, elects two
+    senators. Senators serve six-year
+    terms, and elections are staggered so
+    each state's two senators are not up
+    for re-election at the same time. The
+    2022 California Senatorial Election
+    you'll be voting in will determine
+    one of these two seats"""
 
     recommended_candidate_data = {
         "name": "Jane Smith",
