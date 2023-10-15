@@ -1,12 +1,21 @@
 <ul class="list-group">
     {% for decoded_race_name in races %}
         {% if decoded_race_name == current_race %}
-            <li class="list-group-item active">{{ decoded_race_name }}</li>
+            <li class="list-group-item active">
+                {{ decoded_race_name }}
+                {% if decoded_race_name in session['choices'] %}
+                    <i class="bi bi-check-circle-fill" style="color: green;"></i>
+                {% endif %}
+            </li>
         {% else %}
             <a href="{{ url_for('race', race_name=quote(decoded_race_name)) }}" class="list-group-item-action">
-                <li class="list-group-item">{{ decoded_race_name }}</li>
+                <li class="list-group-item">
+                    {{ decoded_race_name }}
+                    {% if decoded_race_name in session['choices'] %}
+                        <i class="bi bi-check-circle-fill" style="color: green;"></i>
+                    {% endif %}
+                </li>
             </a>
-                
-         {% endif %}
+        {% endif %}
     {% endfor %}
 </ul>

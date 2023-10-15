@@ -1,9 +1,46 @@
-## Chat Bot with OpenAI API and Flask
+# VoteWise
 
-Introducing the Flask Chat Bot powered by the OpenAI API! This innovative chat bot combines the flexibility and ease of use of Flask with the power of the OpenAI API to deliver intelligent and interactive conversations. With natural language processing capabilities, the chat bot can understand user queries and provide relevant responses in real time. Whether it's customer support, information retrieval, or just casual conversation, our chat bot is ready to engage and assist users with its advanced AI capabilities. Get ready for an immersive and dynamic chat experience like never before!
+## Overview:
+
+In the nexus of AI innovation and democratic participation, we introduce:
+
+**VoteWise**: A dynamic tool tailoring the voting process to individual values and interests.
+
+## Empowering Voters with VoteWise:
+
+**The Challenge**: 
+Complex ballots in regions like California often deter active participation, making democratic representation a challenge for many.
+
+**Our Remedy**: 
+VoteWise utilizes cutting-edge AI and LLMs to parse each ballot measure and candidate. By proactively engaging with users, it identifies and aligns with their core values, offering precise voting recommendations. This ensures that voting is not only more intuitive but also truly representative.
+
+---
+
+## Enriched Conversations with OpenAI ChatGPT:
+
+Revolutionizing user interactions, our Open-Source Python-Based project harnesses the strength of OpenAI ChatGPT. This versatile integration offers users profound and engaging dialogues, suitable for diverse needs – from customer support, knowledge retrieval to casual banter. Experience a heightened conversational ecosystem like never before.
+
+---
+
+## Impact & Broader Vision:
+
+VoteWise is more than just technology; it's a movement towards a more inclusive society. By enhancing the voting experience, we champion:
+
+- Robust democratic structures.
+- Universal access to pivotal services.
+- Gender inclusivity.
+- Curtailing prevailing disparities.
+- Cultivating sustainable urban and rural habitats.
+
+By synchronizing genuine public sentiment with broader societal goals, we're creating a brighter, more sustainable tomorrow.
+
+---
+
+**Join the Evolution**:
+With VoteWise's democratic insights and the advanced conversational capabilities of our Open-Source Python project, we're redefining the future of participatory democracy and AI-powered interactions. Join us in this transformative journey, making democracy more accessible and conversations richer.
 
 
-<img src="screenshot.png" alt="img_not_found">
+View the live site at http://votewise.radiantmachines.com/
 
 ## Prerequisites
 
@@ -15,23 +52,28 @@ Introducing the Flask Chat Bot powered by the OpenAI API! This innovative chat b
 
 ## Getting Started
 
-1. Clone the repository:
+### Clone the repository:
 
-   ```bash
-   git clone https://github.com/paramsgit/autochat-bot
+```bash
+git clone https://github.com/gjlondon/VoteWise
+```
 
-2  Navigate to the project directory:
+###  Navigate to the project directory:
     
-    cd autochat-bot
+```
+cd VoteWise
+```
 
-3 Install the required dependencies using pip:
+### Install the required dependencies using pip:
     
-    pip install -r requirements.txt
+```
+pip install -r requirements.txt
+````
 
-4 Set up OpenAI API:
+### Set up OpenAI API:
 
 - Create an OpenAI account and obtain an API key.
-- Set the OPENAI_API_KEY environment variable with your API key 
+- Set the `OPENAI_API_KEY`` environment variable with your API key 
 
     On Windows:
     - Use the search bar in the Start menu to find “Edit the system environment variables”.
@@ -45,11 +87,16 @@ Introducing the Flask Chat Bot powered by the OpenAI API! This innovative chat b
     - Add a new line to the file:
     ``export OPENAI_API_KEY= [your secret key]``
 
-5 Run the application:
+### Run the application:
 
-    python app.py
+Start the app like this
 
-6 Open your web browser and visit http://127.0.0.1:{port}/ to access the chat bot.
+```
+flask run
+```
+
+### View site
+ Open your web browser and visit http://127.0.0.1:{port}/ to access the chat bot.
 
 
 

@@ -1,8 +1,18 @@
 <!-- Chat Container -->
 <div class="container align-items-center" style="border: 1px solid #eee; padding: 20px;">
-    <div class="box justify-content-center" style="min-height: 50vh;">
+    <div class="box justify-content-center" >
+        <div id="avatar" style="margin-bottom: -100px">
+            <div class="video-container" style="border-radius:50px">
+                <video id="avatar-video" loop muted>
+                    <source src="/static/avatar.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
         <!-- Upper section for chat messages -->
         <div class="upper mb-4 overflow-auto" id="upperid">
+        <!-- <div class="upper mb-4 overflow-auto" style="min-height: 40vh" id="upperid"> -->
+
             <span class="d-block text-center text-muted">Type your message in the box below.</span>
             <!-- Messages will go here -->
         </div>
@@ -10,14 +20,16 @@
         <!-- Chat Input Section -->
         <div class="bottom bg-white p-3">
             <form id="userinputform" class="input-group">
-                <textarea id="userinput" rows="1" class="form-control" placeholder="Your message..." required></textarea>
+                <textarea id="userinput" rows="1" class="form-control" placeholder="Your message..."
+                    required></textarea>
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-primary" id="sendbtn">
                         <i class="bi bi-send"></i>
                     </button>
                 </div>
             </form>
-            <span class="d-block text-center text-muted mt-2">Remember: Your chat will not be saved, it will be lost upon reloading.</span>
+            <span class="d-block text-center text-muted mt-2">Remember: Your chat will not be saved, it will be lost
+                upon reloading.</span>
         </div>
     </div>
 </div>
@@ -36,13 +48,29 @@
         formsubmitted();
     });
 
+    // Submit on Enter
+    // Add event listener
+    document.getElementById("userinput").addEventListener("keypress", function (event) {
+        if (event.which === 13 && !event.shiftKey) {
+            event.preventDefault();
+
+            var form = document.getElementById("userinputform")
+            if (form) {
+                event.preventDefault();
+                formsubmitted();
+            }
+        }
+    });
+
+
     // sending request to python server
     const formsubmitted = async () => {
         let userinput = document.getElementById('userinput').value
         let sendbtn = document.getElementById('sendbtn')
         let userinputarea = document.getElementById('userinput')
         let upperdiv = document.getElementById('upperid')
-       
+        var video = document.getElementById("avatar-video");
+
 
         upperdiv.innerHTML = upperdiv.innerHTML + `<div class="message">
             <div class="usermessagediv">
@@ -72,9 +100,11 @@
 
 
         if (json.response) {
+            video.play();
+            
             let message = json.message
             message = message.toString()
-  
+
             upperdiv.innerHTML = upperdiv.innerHTML + `<div class="message">
             <div class="appmessagediv">
                 <div class="appmessage" id="temp">
@@ -94,6 +124,7 @@
                     temp.removeAttribute('id')
                     sendbtn.disabled = false
                     userinputarea.disabled = false
+                    video.pause();
                 }
             }
             displayNextLetter()
