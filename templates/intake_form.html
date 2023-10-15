@@ -1,175 +1,224 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Intake Form</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-body {
-    font-family: Arial, sans-serif;
-    background-color: #eef2f7;
-    margin: 0;
-    padding: 0;
-}
+    <!DOCTYPE html>
+    <html lang="en">
 
-.container {
-    background-color: #fff;
-    border-radius: 12px;
-    padding: 40px;
-    margin-top: 60px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-}
+    <head>
+        <meta charset="UTF-8">
+        <title>Intake Form</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-h1 {
-    font-size: 32px;
-    margin-bottom: 30px;
-    color: #333;
-}
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #eef2f7;
+                margin: 0;
+                padding: 0;
+            }
 
-.form-label, legend {
-    font-weight: 600;
-    display: block;
-    margin-bottom: 10px;
-    font-size: 1.5rem;
-    color: #666;
-}
+            .container {
+                background-color: #fff;
+                border-radius: 12px;
+                padding: 40px;
+                margin-top: 60px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            }
 
-.form-label {
-    font-weight: 500;
-    font-size: 1.2rem;
-}
+            h1 {
+                font-size: 32px;
+                margin-bottom: 30px;
+                color: #333;
+            }
 
-.form-check-label {
-    margin-right: 20px;
-}
+            .form-label,
+            legend {
+                font-weight: 600;
+                display: block;
+                margin-bottom: 10px;
+                font-size: 1.5rem;
+                color: #666;
+            }
 
-.form-group, fieldset {
-    margin-bottom: 35px;
-}
+            .form-label {
+                font-weight: 500;
+                font-size: 1.2rem;
+            }
 
-fieldset {
-    border: none;
-    padding: 0;
-    margin: 0;
-}
+            .form-check-label {
+                margin-right: 20px;
+            }
 
-.btn-primary {
-    background-color: #7789d9; /* muted primary blue */
-    border: none;
-    padding: 10px 25px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s, transform 0.3s;
-}
+            .form-group,
+            fieldset {
+                margin-bottom: 35px;
+            }
 
-.btn-primary:hover {
-    background-color: #6778c4; /* muted darker blue on hover */
-    transform: translateY(-2px);
-}
+            fieldset {
+                border: none;
+                padding: 0;
+                margin: 0;
+            }
 
-/* Updated Likert scale gradient styles with more pronounced text shadow */
-.likert-label {
-    display: inline-block;
-    padding: 6px 12px;
-    border-radius: 6px;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    margin: 0 5px;
-    cursor: pointer;
-    user-select: none;
-    color: #ffffff;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-}
+            .btn-primary {
+                background-color: #7789d9;
+                border: none;
+                padding: 10px 25px;
+                cursor: pointer;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                transition: background-color 0.3s, transform 0.3s;
+            }
 
-.likert-label:nth-child(1) { background-color: #c3d1f0; } /* lightest blue */
-.likert-label:nth-child(2) { background-color: #a8b7e7; }
-.likert-label:nth-child(3) { background-color: #8da0de; }
-.likert-label:nth-child(4) { background-color: #7789d9; } /* muted primary blue */
-.likert-label:nth-child(5) { background-color: #6879c4; } /* muted darker blue */
+            .btn-primary:hover {
+                background-color: #6778c4;
+                transform: translateY(-2px);
+            }
 
-.likert-label:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+            .likert-label {
+                display: inline-block;
+                padding: 6px 12px;
+                border-radius: 6px;
+                transition: background-color 0.3s, box-shadow 0.3s;
+                margin: 0 5px;
+                cursor: pointer;
+                user-select: none;
+                color: #ffffff;
+                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            }
 
+            .likert-label:nth-child(1) {
+                background-color: #c3d1f0;
+            }
 
-    </style>
-</head>
-<body>
-<div class="container mt-5">
-    <h1>Let's get Started!</h1>
-    <h3> Locate your Ballot </h2>
-    <form action="" method="post" novalidate>
-        {{ form.hidden_tag() }}
+            .likert-label:nth-child(2) {
+                background-color: #a8b7e7;
+            }
 
-        <!-- Street Address -->
-        <div class="form-group">
-            {{ form.street_address.label(class="form-label") }}
-            {{ form.street_address(class="form-control") }}
-        </div>
+            .likert-label:nth-child(3) {
+                background-color: #8da0de;
+            }
 
-        <!-- City -->
-        <div class="form-group">
-            {{ form.city.label(class="form-label") }}
-            {{ form.city(class="form-control") }}
-        </div>
+            .likert-label:nth-child(4) {
+                background-color: #7789d9;
+            }
 
-        <!-- State -->
-        <div class="form-group">
-            {{ form.state.label(class="form-label") }}
-            {{ form.state(class="form-control") }}
-        </div>
+            .likert-label:nth-child(5) {
+                background-color: #6879c4;
+            }
 
-        <!-- ZIP Code for Address -->
-        <div class="form-group">
-            {{ form.address_zip_code.label(class="form-label") }}
-            {{ form.address_zip_code(class="form-control") }}
-        </div>
+            .likert-label:hover {
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
 
-        <h3> A Few Intake Questions... </h2>
+            /* Styles for the floating buttons */
+            #fontSizeControls {
+                position: fixed;
+                left: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                z-index: 9999;
+            }
 
-        <!-- Party Affiliation -->
-        <div class="form-group">
-            {{ form.party_affiliation.label(class="form-label") }}
-            {{ form.party_affiliation(class="form-control") }}
-        </div>
+            .btn-size-control {
+                display: block;
+                margin: 5px 0;
+            }
+        </style>
+    </head>
 
-        <!-- Political Issues -->
-        <div class="form-group">
-            {{ form.political_issues.label(class="form-label") }}
-            {% for subfield in form.political_issues %}
-            <label class="checkbox-inline">{{ subfield }} {{ subfield.label.text }}</label>
-            {% endfor %}
-        </div>
+    <body>
+        <div class="container mt-5">
+            <h1>Let's get Started!</h1>
+            <h3>Locate your Ballot</h3>
+            <form action="" method="post" novalidate>
+                {{ form.hidden_tag() }}
 
-        <!-- Likert Scale Questions -->
-        {% set likert_questions = ['housing', 'economy', 'environment', 'immigration', 'income_inequality',
-        'transportation', 'education', 'healthcare', 'public_safety', 'taxation'] %}
-        {% for question in likert_questions %}
-        <fieldset class="form-group">
-            <legend>{{ form[question].label }}</legend>
-            <div class="form-check form-check-inline">
-                {% for subfield in form[question] %}
-                <label class="form-check-label likert-label">
-                    {% if loop.index == loop.length %}
-                    {{ subfield(checked=True) }} {{ subfield.label }}
-                    {% else %}
-                    {{ subfield }} {{ subfield.label }}
-                    {% endif %}
-                </label>
+                <!-- Street Address -->
+                <div class="form-group">
+                    {{ form.street_address.label(class="form-label") }}
+                    {{ form.street_address(class="form-control") }}
+                </div>
+
+                <!-- City -->
+                <div class="form-group">
+                    {{ form.city.label(class="form-label") }}
+                    {{ form.city(class="form-control") }}
+                </div>
+
+                <!-- State -->
+                <div class="form-group">
+                    {{ form.state.label(class="form-label") }}
+                    {{ form.state(class="form-control") }}
+                </div>
+
+                <!-- ZIP Code for Address -->
+                <div class="form-group">
+                    {{ form.address_zip_code.label(class="form-label") }}
+                    {{ form.address_zip_code(class="form-control") }}
+                </div>
+
+                <h3>A Few Intake Questions...</h3>
+
+                <!-- Party Affiliation -->
+                <div class="form-group">
+                    {{ form.party_affiliation.label(class="form-label") }}
+                    {{ form.party_affiliation(class="form-control") }}
+                </div>
+
+                <!-- Political Issues -->
+                <div class="form-group">
+                    {{ form.political_issues.label(class="form-label") }}
+                    {% for subfield in form.political_issues %}
+                    <label class="checkbox-inline">{{ subfield }} {{ subfield.label.text }}</label>
+                    {% endfor %}
+                </div>
+
+                <!-- Likert Scale Questions -->
+                {% set likert_questions = ['housing', 'economy', 'environment', 'immigration', 'income_inequality',
+                'transportation', 'education', 'healthcare', 'public_safety', 'taxation'] %}
+                {% for question in likert_questions %}
+                <fieldset class="form-group">
+                    <legend>{{ form[question].                label.text }}</legend>
+                    {% for subfield in form[question] %}
+                    <label class="likert-label">
+                        {{ subfield }}
+                        {{ subfield.label.text }}
+                    </label>
+                    {% endfor %}
+                </fieldset>
                 {% endfor %}
-            </div>
-        </fieldset>
-        {% endfor %}
 
-
-        <!-- Submit Button -->
-        <div class="form-group">
-            {{ form.submit(class="btn btn-primary") }}
+                <!-- Submit Button -->
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Submit">
+                </div>
+            </form>
         </div>
-    </form>
-</div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+        <!-- Font Size Control Buttons -->
+        <div id="fontSizeControls">
+            <button class="btn btn-light btn-size-control" onclick="increaseSize()">A+</button>
+            <button class="btn btn-light btn-size-control" onclick="decreaseSize()">A-</button>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            const STEP = 2;  // Determines the amount of size change per click
+            let currentSize = parseFloat(getComputedStyle(document.body).fontSize);
+
+            function adjustFontSize(delta) {
+                currentSize += delta;
+                document.body.style.fontSize = `${currentSize}px`;
+            }
+
+            function increaseSize() {
+                adjustFontSize(STEP);
+            }
+
+            function decreaseSize() {
+                adjustFontSize(-STEP);
+            }
+        </script>
+    </body>
+
+    </html>
+
