@@ -74,6 +74,7 @@ pip install -r requirements.txt
 
 - Create an OpenAI account and obtain an API key.
 - Set the `OPENAI_API_KEY`` environment variable with your API key 
+- Set the `ANTHROPIC_API_KEY`` environment variable with your API key 
 
     On Windows:
     - Use the search bar in the Start menu to find “Edit the system environment variables”.
