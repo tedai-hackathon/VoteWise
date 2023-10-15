@@ -168,8 +168,7 @@ def score_candidates_for_mayor(candidate_summaries, voter_info_json, voter_info_
             oakland_mayor_scoring_prompt = MAYOR_SCORING_PROMPT_TEMPLATE.format(**{
                 "oakland_mayor_issues": OAKLAND_MAYOR_ISSUES,
                 "voter_info_json": voter_info_json,
-                "candidate_summary": candidate_summaries[candidate]
-
+                "candidate_summary": candidate_summaries[candidate],
             })
             mayor_scoring_completion = anthropic.completions.create(
                 model="claude-2",
@@ -209,7 +208,7 @@ def extract_key_from_json(json_data, key, human_readable=False):
 
     if human_readable:
         prompt += """\n
-        Also reformat the data to be in HTML that can inserted directly into a web page, and will then be human readable in natural english.
+        Also reformat the data to be in HTML that can inserted directly into a web page, and will then be human readable in natural language.
          Try to use the HTML to retain any formatting or structure that ads
         clarity, but remember this HTML will be inserted directly into a webpage DOM by javascript so it should not cause any rendering problems when inserted.
         Remove any extraneous characters or quotation marks.
@@ -244,7 +243,8 @@ def formulate_mayor_recommendation(candidate_scores, voter_info_json, voter_info
         voter_info_dir.mkdir(parents=True, exist_ok=True)
 
     overall_candidate_scores = candidate_scores
-    recommendation_path = voter_info_dir / f"recommendation.json"
+    language = json.loads(voter_info_json).get('language', 'english')
+    recommendation_path = voter_info_dir / f"{language}_recommendation.json"
     if recommendation_path.exists():
         with open(recommendation_path, 'r') as f:
             recommendation = json.load(f)
@@ -255,7 +255,8 @@ def formulate_mayor_recommendation(candidate_scores, voter_info_json, voter_info
         recommendation_prompt = recommendation_template.format(**{
             "oakland_mayor_issues": OAKLAND_MAYOR_ISSUES,
             "voter_info_json": voter_info_json,
-            "overall_candidate_scores": overall_candidate_scores
+            "overall_candidate_scores": overall_candidate_scores,
+            "language": language,
         })
 
         mayor_overall_recommendation_completion = anthropic.completions.create(

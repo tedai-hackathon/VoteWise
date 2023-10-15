@@ -108,7 +108,7 @@ fieldset {
 <body>
 <div class="container mt-5">
     <h1>Let's get Started!</h1>
-    <h3> Locate your Ballot </h2>
+    <h2> Locate your Ballot </h2>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
 
@@ -173,8 +173,12 @@ fieldset {
         {% endfor %}
         <p>We will ask more questions as the guide requires more information...</p>
 
+
+
         <input type="hidden" name="selected_language" id="selectedLanguage" value="English">
         <div class="dropdown">
+            <legend><label>Select Language</label></legend>
+            <br>
             <button class="btn btn-secondary dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 English
             </button>
@@ -185,8 +189,22 @@ fieldset {
                 <a class="dropdown-item" href="#" data-lang="Mandarin">中文</a>
                 <a class="dropdown-item" href="#" data-lang="Russian">Русский</a>
             </div>
-        </div> 
-        
+        </div>
+<br>
+        <br>
+        <!-- checkbox to accept data usage terms -->
+        <div class="form-group">
+            <legend><label>Data Usage & Privacy</label></legend>
+            <br>
+            <p>We use your inputs to make personalized
+                voting recommendations. We pass your inputs to AI models to make the best recommendations, and those models
+                will do limited processing of your data. But we will never resell your data or share it for any other purpose. Please see our <a href="privacy_policy.html" target="_blank">Privacy Policy</a> for more details.</p>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="accept" value="accept">
+                Accept Privacy Policy
+            </label>
+        </div>
+
         <br/>
         <!-- Submit Button -->
         <div class="form-group">
@@ -226,13 +244,13 @@ fieldset {
                     // Get the selected language in its respective script from the anchor text
                     event.preventDefault();
                     var selectedLanguageScript = $(this).text();
-                    
+
                     // Update the dropdown button's text to reflect the selected language
                     $("#languageDropdown").text(selectedLanguageScript);
 
                     // Get the selected language English name from data-lang attribute
                     var selectedLangEnglishName = $(this).data("lang");
-                    
+
                     // Update the hidden input field with the English name
                     $("#selectedLanguage").val(selectedLangEnglishName);
                 });
