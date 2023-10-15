@@ -83,3 +83,9 @@
     height: 120px;
     object-fit: cover; /* This will ensure that the video fills the container without distortion */
 }
+
+#chatContainer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 2s ease-out;
+}

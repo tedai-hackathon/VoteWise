@@ -77,7 +77,9 @@
                 
                 <!-- Placeholder for Chatbot -->
                 <div class="mt-4">
-                    {% include 'chat.html' %}
+                    <div id="chatContainer">
+                        {% include 'chat.html' %}
+                    </div>
                     <!-- Chatbot content goes here -->
                 </div>
             </div>
@@ -97,10 +99,17 @@
         // Register event listener for the Learn More button
         learnMoreBtn.addEventListener('click', function() {
             console.log('Learn More button clicked');
+            var chatContainer = document.getElementById('chatContainer');
+            if (chatContainer.style.maxHeight === "0px" || !chatContainer.style.maxHeight) {
+                chatContainer.style.maxHeight = "1000px";  // You might need to adjust this value to suit the content size.
+            } else {
+                chatContainer.style.maxHeight = "0px";
+            }
+
             // TODO: only do this if there isn't already a chat going on
             var textarea = document.getElementById('userinput');
             textarea.value = "I don't think this is the right choice for me, can you tell me what other candidates might be appropriate?";
-            formsubmitted(); // this is a hack since this method is implemented in chat.html
+            setTimeout(function() { formsubmitted(), 4000}) // this is a hack since this method is implemented in chat.html
             
         });
 
