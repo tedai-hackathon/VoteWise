@@ -214,6 +214,17 @@ def extract_key_from_json(json_data, key, human_readable=False):
         Remove any extraneous characters or quotation marks.
         """
 
+    # retrieve response from cache if it already exists (using same caching to disk pattern)
+    # otherwise make live call
+
+    encoded = encode_canonical_json({"request": prompt})
+    hashed_prompt = hashlib.sha256(encoded).hexdigest()
+
+    cache_path = Path(os.path.join(app.root_path, 'data', f'extract_{hashed_prompt}'))
+    if cache_path.exists():
+        with open(cache_path, 'r') as f:
+            return json.load(f)['response']
+
     completion = anthropic.completions.create(
         model="claude-2",
         max_tokens_to_sample=15_000,
@@ -222,6 +233,9 @@ def extract_key_from_json(json_data, key, human_readable=False):
 
     # Print the completion
     print(completion.completion)
+    with open(cache_path, 'w') as f:
+        json.dump({"response": completion.completion}, f)
+
     return completion.completion
 
 
