@@ -25,7 +25,10 @@
         <div class="row">
             <!-- Left Column: List of Races -->
             <div class="col-md-4">
-                <h5>Races</h5>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5>Races</h5>
+                    <a href="/pdf" class="btn">Finish</a>
+                </div>            
                 <div class="scrollable-sidebar">
                     {% with current_race=current_race, ballot_data = ballot_data  %}
                         {% include 'race_sidebar.html' %}
@@ -37,35 +40,38 @@
             <div class="col-md-8">
                 <h2> {{ current_race }} </h2>
                 <p>
-                    The race for governer is fraught with good intentions and unfortunate outcomes.
+                    {{ race_description }}
                 </p>
                 <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Recommendation: {{ recommended_candidate.name }}</h5>
-                        <p class="card-text">{{ recommended_candidate.reason }}</p>
-                        
-                        <!-- Buttons -->
-                        <div class="mt-3 text-right">
-                            <form action="{{ url_for('confirm') }}" method="get">
-                                <!-- Hidden input to store the recommended candidate's name -->
-                                <input type="hidden" name="candidate" value="{{ recommended_candidate.name }}">
-                                <input type="hidden" name="race" value="{{ quote(current_race) }}">
-                
-                                <!-- Existing buttons, with the Learn More button modified -->
-                                <div class="d-flex justify-content-end">
-                                    <button type="button" class="btn btn-secondary mr-2" id="learnMoreButton">Learn More</button>
-                                    <!-- Modified the Next button to be a submit button for the form -->
-                                    <button type="submit" class="btn btn-success">Next</button>
-                                </div>
-                            </form>
-                            
-                            <!-- <button class="btn btn-success" id="acceptButton">
-                                <i class="icon-accept"></i> Accept
-                            </button>
-                            <button class="btn btn-secondary" id="learnMoreButton">
-                                <i class="icon-info"></i> Learn More
-                            </button> -->
+                    <div class="card-body" id="recommendation">
+                        <div id="loader">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            Using AI to load a personalized recommendation...
                         </div>
+                        
+                        <!-- Wrapped Recommendation Info -->
+                        <div id="recommendationInfo" style="display: none;">
+                            <h5 class="card-title">Recommendation:</h5>
+                            <p class="card-text"></p>
+                                                    <!-- Buttons -->
+                            <div class="mt-3 text-right">
+                                <form action="{{ url_for('confirm') }}" method="get">
+                                    <!-- Hidden input to store the recommended candidate's name -->
+                                    <input type="hidden" name="candidate" value="{{ recommended_candidate.name }}">
+                                    <input type="hidden" name="race" value="{{ quote(current_race) }}">
+                    
+                                    <!-- Existing buttons, with the Learn More button modified -->
+                                    <div class="d-flex justify-content-end">
+                                        <button type="button" class="btn btn-secondary mr-2" id="learnMoreButton">Learn More</button>
+                                        <!-- Modified the Next button to be a submit button for the form -->
+                                        <button type="submit" class="btn btn-success">Accept</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
                 
@@ -103,7 +109,37 @@
         // acceptBtn.addEventListener('click', function() {
         //     // Your code here
         // });
+
+        const loader = document.getElementById("loader");
+        const recommendationInfo = document.getElementById("recommendationInfo");
+        
+        // Display the loader initially
+        loader.style.display = "block";
+        
+        // Make the AJAX call
+        fetch('/race/{{quote(current_race)}}/recommendation', {
+            method: 'POST'
+        }) // Replace with the actual route to the quick_recommendation function
+        .then(response => response.json())
+        .then(data => {
+            if (data.response) {
+                document.querySelector("#recommendation .card-title").textContent = "Recommendation: " + data.message.candidate;
+                document.querySelector("#recommendation .card-text").textContent = data.message.reason;
+
+                // Show recommendation info and hide loader
+                recommendationInfo.style.display = "block";
+                loader.style.display = "none";
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching recommendation:", error);
+            
+            // Hide both loader and recommendation info in case of an error
+            loader.style.display = "none";
+            recommendationInfo.style.display = "none";
+        });
     });
+
     </script>
 
 </body>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Display Choices</title>
+</head>
+<body>
+<div class="container mt-5">
+    <h2>User Selections</h2>
+    <button id="savePDF" class="btn btn-primary mt-3">Save as PDF</button>
+    <ul class="list-group">
+        {% for race in races %}
+            <li class="list-group-item">
+                {{ race }}: 
+                <strong>{{ choices.get(race, "no selection") }}</strong>
+            </li>
+        {% endfor %}
+    </ul>
+    
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script>
+    document.getElementById('savePDF').addEventListener('click', function(){
+        var opt = {
+            margin: 10,
+            filename: 'choices.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        
+        html2pdf().set(opt).from(document.body).save();
+    });
+</script>
+
+</body>
+</html>

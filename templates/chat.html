@@ -1,7 +1,7 @@
 <!-- Chat Container -->
 <div class="container align-items-center" style="border: 1px solid #eee; padding: 20px;">
     <div class="box justify-content-center" >
-        <div id="avatar" style="margin-bottom: -100px">
+        <div id="avatar" style="margin-bottom: -100px; position: relative">
             <div class="video-container">
                 <video id="avatar-video" loop muted>
                     <source src="/static/avatar.mp4" type="video/mp4">
@@ -85,7 +85,7 @@
         document.getElementById('userinput').value = ""
         document.getElementById('userinput').placeholder = "Wait . . ."
 
-        const response = await fetch("/data", {
+        const response = await fetch("/race/{{quote(current_race)}}/chat/vlad", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
