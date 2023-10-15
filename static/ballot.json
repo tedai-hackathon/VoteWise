@@ -1,4 +1,21 @@
 {
+    "United States Senator": [
+        "Alex Padilla, Democratic",
+        "Mark P. Meuser, Republican"
+    ],
+    "Mayor; City of Oakland": [
+        "Loren Manuel Taylor",
+        "Sheng Thao",
+        "Ignacio De La Fuente",
+        "Allyssa Victory Villanueva",
+        "Treva D. Reid",
+        "Gregory Hodge",
+        "Seneca Scott",
+        "John Reimann",
+        "Peter Y. Liu",
+        "Tyron C. Jordan"
+    ],
+    "Proposition 29 Kidney Dialysis Clinics": "Requires physician, nurse practitioner, or physician assistanton site during treatment. Requires clinics to: disclosephysicians' ownership interests; report infection data.Fiscal Impact: Increased state and local government costslikely in the tens of millions of dollars annually.",
     "Governor": [
         "Gavin Newsom, Democratic",
         "Brian Dahle, Republican"
@@ -35,14 +52,6 @@
         "Sally J. Lieber, Democratic",
         "Peter Coe Verbica, Republican"
     ],
-    "United States Senator; Full Term": [
-        "Alex Padilla, Democratic",
-        "Mark P. Meuser, Republican"
-    ],
-    "United States Senator; Unexpired Short Term": [
-        "Alex Padilla, Democratic",
-        "Mark P. Meuser, Republican"
-    ],
     "United States Representative; District 12": [
         "Barbara Lee, Democratic",
         "Stephen Slauson, Republican"
@@ -77,18 +86,6 @@
     "Auditor; City of Oakland": [
         "Courtney Ruby"
     ],
-    "Mayor; City of Oakland": [
-        "Loren Manuel Taylor",
-        "Sheng Thao",
-        "Ignacio De La Fuente",
-        "Allyssa Victory Villanueva",
-        "Treva D. Reid",
-        "Gregory Hodge",
-        "Seneca Scott",
-        "John Reimann",
-        "Peter Y. Liu",
-        "Tyron C. Jordan"
-    ],
     "District Attorney; County of Alameda": [
         "Pamela Price",
         "Terry Wiley"
@@ -111,7 +108,6 @@
         "Proposition 26 Sports Betting in Casinos": "Also allows: sports wagering at certain horseracing tracks;private lawsuits to enforce certain gambling laws. Directsrevenues to General Fund, problem-gambling programs,enforcement. Fiscal Impact: Increased state revenues, possiblyreaching tens of millions of dollars annually. Some of theserevenues would support increased state regulatory andenforcement costs that could reach the low tens of millions ofdollars annually.",
         "Proposition 27 Online Sports Betting": "Allows Indian tribes and affiliated businesses to operate online/mobile sports wagering outside tribal lands. Directs revenues toregulatory costs, homelessness programs, nonparticipatingtribes. Fiscal Impact: Increased state revenues, possibly inthe hundreds of millions of dollars but not likely to exceed$500 million annually. Some revenues would support stateregulatory costs, possibly reaching the mid-tens of millions ofdollars annually.",
         "Proposition 28 Funding Arts and Music Education": "Provides additional funding from state General Fund for artsand music education in all K+12 public schools (includingcharter schools). Fiscal Impact: Increased state costs of about$1 billion annually, beginning next year, for arts education inpublic schools.",
-        "Proposition 29 Kidney Dialysis Clinics": "Requires physician, nurse practitioner, or physician assistanton site during treatment. Requires clinics to: disclosephysicians' ownership interests; report infection data.Fiscal Impact: Increased state and local government costslikely in the tens of millions of dollars annually.",
         "Proposition 30 Income Tax on Millionaires for Electric Cars": "Allocates tax revenues to zero-emission vehicle purchaseincentives, vehicle charging stations, and wildfire prevention.Fiscal Impact: Increased state tax revenue ranging from$3.5 billion to $5 billion annually, with the new funding usedto support zero-emission vehicle programs and wildfire responseand prevention activities.",
         "Proposition 31 Yes or No to Banning Flavored Tobacco Products": "A \"Yes\" vote approves, and a \"No\" vote rejects, a 2020 lawprohibiting retail sale of certain flavored tobacco products.Fiscal Impact: Decreased state tobacco tax revenues rangingfrom tens of millions of dollars annually to around $100 millionannually.",
         "Measure D Save Agriculture and Open Space LAnds Initiative -- County of Alameda": "To preserve and enhance agriculture in the unincorporated area of Alameda County, shall the \"Save Agriculture and Open Space Lands\" Initiative (Measure D, November 2000) allow (1) a maximum floor area ratio of .025 for agricultural buildings in Large Parcel Agriculture areas and (2) a maximum floor area ratio of .025, with a minimum of 20,000 and a maximum of 60,000 square feet, for covered equestrian riding arenas in Large Parcel Agriculture and Resource Management areas?",
